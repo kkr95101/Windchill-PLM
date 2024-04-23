@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ext.dgt.user.dao.DGUserDao">
+   <select id="getUsersMp" resultType="hashMap">
+   <![CDATA[
+		select users.fullName name,
+			   users.idA2A2 oid,
+			   users.eMail email,
+			   CONVERT(CHAR(10), users.createStampA2, 23)  regDate
+		from wcadmin.WTUser users;
+   ]]>
+   </select>
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd" >
+<properties>
+    <!-- 조직 -->
+    <entry key="mic.org">mic</entry>
+
+    <!-- Library, Folder -->
+    <entry key="mic.library.pms">PMS</entry>
+    <entry key="mic.library.pms.project">Default/Project</entry>
+    <entry key="mic.library.pms.approvalDoc">Default/ApprovalDoc</entry>
+    <entry key="mic.library.pms.openIssue">Default/Issue</entry>
+    <entry key="mic.library.pms.dvpandr">Default/DVPAndR</entry>
+
+	<entry key="mic.library.document">DOCUMENT</entry>
+	<entry key="mic.library.document.beforeReview">Default/BeforeReview</entry>
+    
+    <!-- LifeCycle -->
+    <entry key="mic.lifecycle.pms.projectMaster">LC_PMS_MASTER</entry>
+    <entry key="mic.lifecycle.pms.approvalDoc">LC_PMS_APPROVALDOC</entry>
+    <entry key="mic.lifecycle.pms.openIssue">LC_PMS_OPEN_ISSUE</entry>
+    <entry key="mic.lifecycle.pms.issueResult">LC_PMS_ISSUE_RESULT</entry>
+    <entry key="mic.lifecycle.pms.targetCost">LC_PMS_COST</entry>
+    <entry key="mic.lifecycle.pms.DVPAndR">LC_DVPANDR</entry>
+    <entry key="mic.lifecycle.change.BeforeReview">LC_BEFORE_REVIEW</entry>
+    
+    <!-- Format -->
+    <entry key="mic.format.date">yyyy-MM-dd</entry>
+    <entry key="mic.format.dateTime">yyyy-MM-dd HH:mm:ss</entry>
+    
+    <!-- sms -->
+    <entry key="mic.sms.defaultSender">0315991318</entry>    
+</properties>

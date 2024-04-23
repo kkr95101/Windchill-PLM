@@ -1,0 +1,9 @@
+WARNING=DO NOT MODIFY THIS FILE IF YOU DON'T UNDERSTAND
+defaultDestination=
+defaultVariables=
+eclipse.preferences.version=1
+includeTeamPrivateFiles=false
+map|0=codebase/ext|D\:/ptc/Windchill_11.0/Windchill/codebase/ext|,|,|,
+map|1=extcore|D\:/ptc/Windchill_11.0/Windchill/codebase/extcore|,|,|,
+map|2=src|D\:/ptc/Windchill_11.0/Windchill/src|,|,|,
+useCurrentDateForDestinationFiles=false

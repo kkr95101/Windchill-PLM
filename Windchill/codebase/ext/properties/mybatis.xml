@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true" />
+        <setting name="defaultExecutorType" value="BATCH" />
+        <setting name="useGeneratedKeys" value="true" />
+    </settings>
+
+    <!-- 별명 -->
+    <typeAliases>
+         <typeAlias alias="hashMap" type="java.util.HashMap" />
+         <typeAlias alias="map" type="java.util.Map" />
+         <typeAlias alias="string" type="java.lang.String" />
+         <typeAlias alias="int" type="java.lang.Integer" />
+    </typeAliases>
+
+</configuration>

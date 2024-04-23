@@ -1,0 +1,8 @@
+eclipse.preferences.version=1
+org.eclipse.jdt.apt.aptEnabled=true
+org.eclipse.jdt.apt.genSrcDir=src_gen
+org.eclipse.jdt.apt.genTestSrcDir=.apt_generated_tests
+org.eclipse.jdt.apt.processorOptions/eclipse_compiler=true
+org.eclipse.jdt.apt.processorOptions/gen_class_info=true
+org.eclipse.jdt.apt.processorOptions/wt.home=D\:\\ptc\\Windchill_11.0\\Windchill
+org.eclipse.jdt.apt.reconcileEnabled=true

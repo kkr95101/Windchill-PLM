@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/util
+http://www.springframework.org/schema/util/spring-util-3.0.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+    <!-- jdbc 정보 properties 를 불러옴 -->
+    <util:properties id="db" location="classpath:ext/properties/jdbc.xml" />
+
+    <!-- dataSource 를 등록 한다. JNDI 로 대체 할 수 있다(jee:jndi-lookup). -->
+    <bean id="dataSourceSpied" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="#{db['driverClassName']}" />
+        <property name="url" value="#{db['url']}" />
+        <property name="username" value="#{db['username']}" />
+        <property name="password" value="#{db['password']}" />
+        <property name="maxTotal" value="#{db['maxTotal']}" />
+        <property name="minIdle" value="#{db['minIdle']}" />
+        <property name="maxWaitMillis" value="#{db['maxWaitMillis']}" />
+        <property name="defaultAutoCommit" value="#{db['defaultAutoCommit']}" />
+        
+<!--         <property name="initialSize" value="#{db['initialSize']}" /> -->
+<!--         <property name="maxActive" value="#{db['maxActive']}" /> -->
+<!--         <property name="maxIdle" value="#{db['maxIdle']}" /> -->
+<!--         <property name="minIdle" value="#{db['minIdle']}" /> -->
+    </bean>
+
+    <!-- log4j 를 이용해 Query 로그 출력 -->
+    <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+        <constructor-arg ref="dataSourceSpied" />
+        <property name="logFormatter">
+            <bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+                <property name="loggingType" value="MULTI_LINE" />
+                <property name="sqlPrefix" value="SQL:::" />
+            </bean>
+        </property>
+    </bean>
+
+     <!-- mybatis 의 설정을 처리하는 클래스   lazy-init="true" -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- mybatis 설정 파일을 지정 -->
+        <property name="configLocation" value="classpath:ext/properties/mybatis.xml" />
+
+        <!-- dataSource 를 지정 -->
+        <property name="dataSource" ref="dataSource" />
+
+        <!-- @Alias 로 지정된 클래스를 찾는데 기준이 되는 패키지를 지정 -->
+        <!-- <property name="typeAliasesPackage" value="ext" /> -->
+
+        <!-- Mapper 파일의 경로를 지정 (파일명의 마지막이 Mapper.xml 로 끝나면 지정됨)-->
+        <property name="mapperLocations" value="/ext/**/dao/*Mapper.xml" />
+    </bean>
+
+    <!-- SqlSessionTemplate : MyBatis SQL method 호출 및 관리, 예예처리 담당 -->
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+           <constructor-arg index="0" ref="sqlSessionFactory" />
+    </bean>
+
+    <!-- DataSource를 활용하는 트랜잭션 매니저를 등록 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <!-- @Transactional 어노테이션에 대한 트랜잭션 처리시 트랜잭션 매니저 txManager 빈으로 등록 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!-- Mapper 와 매칭하는 interface 를 탐색하는 빈 -->
+    <bean id="mapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!-- 맵퍼와 매칭하는 interface 에 지정된 어노테이션을 설정 -->
+        <property name="annotationClass" value="org.springframework.stereotype.Repository" />
+        <!-- 탐색 기준 패키지 지정 -->
+        <property name="basePackage" value="ext.**.dao" />
+        <!-- dao interface 의 구현체의 sql 처리를 실행하게될 SqlSession 을 생성할 factory 를 지정  -->
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+</beans>

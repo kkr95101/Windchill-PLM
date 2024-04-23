@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
+
+    <appender name="console" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] %-5p: %c - %m%n" />
+        </layout>
+    </appender>
+
+    <!-- Application Loggers -->
+    <logger name="ext">
+        <level value="info" />
+    </logger>
+    
+    <!-- 3rdparty Loggers -->
+<!--     <logger name="org.springframework.core"> -->
+<!--         <level value="info" /> -->
+<!--     </logger> -->
+
+<!--     <logger name="org.springframework.beans"> -->
+<!--         <level value="info" /> -->
+<!--     </logger> -->
+
+<!--     <logger name="org.springframework.context"> -->
+<!--         <level value="info" /> -->
+<!--     </logger> -->
+
+<!--     <logger name="org.springframework.web"> -->
+<!--         <level value="info" /> -->
+<!--     </logger> -->
+
+<!--     <logger name="org.apache"> -->
+<!--         <level value="INFO" /> -->
+<!--     </logger> -->
+
+<!--     <logger name="org.apache.http"> -->
+<!--         <level value="DEBUG" /> -->
+<!--     </logger> -->
+
+    <!-- ===================================== -->
+    <!-- log4jdbc settings                     -->
+    <!-- ===================================== -->
+    <!--                       development production -->
+    <!-- jdbc.connection     :     WARN       WARN    -->
+    <!-- jdbc.audit          :     WARN       WARN    -->
+    <!-- jdbc.sqlonly        :     INFO       WARN    쿼리만 출력 -->
+    <!-- jdbc.sqltiming      :     DEBUG      WARN    쿼리와 실행 시간을 출력 -->
+    <!-- jdbc.resultset      :     WARN       WARN    -->
+    <!-- jdbc.resultsettable :     INFO       WARN    쿼리 결과를 출력 -->
+
+    <logger name="jdbc.connection" additivity="false">
+        <level value="WARN"/>
+        <appender-ref ref="console"/>
+    </logger>
+
+    <logger name="jdbc.audit" additivity="false">
+        <level value="WARN"/>
+        <appender-ref ref="console"/>
+    </logger>
+
+    <logger name="jdbc.sqlonly" additivity="false">
+        <level value="WARN"/>
+        <appender-ref ref="console"/>
+    </logger>
+
+    <logger name="jdbc.sqltiming" additivity="false">
+        <level value="WARN"/>
+        <appender-ref ref="console"/>
+    </logger>
+
+    <logger name="jdbc.resultset" additivity="false">
+        <level value="WARN"/>
+        <appender-ref ref="console"/>
+    </logger>
+
+    <logger name="jdbc.resultsettable" additivity="false">
+        <level value="WARN"/>
+        <appender-ref ref="console"/>
+    </logger>
+
+</log4j:configuration>
