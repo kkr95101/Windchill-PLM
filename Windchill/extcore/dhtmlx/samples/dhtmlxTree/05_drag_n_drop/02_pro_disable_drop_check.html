@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title> Disable drop target checking</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	
+</head>
+
+<body >
+	<h1>Disable drop target checking</h1>
+  <p>After disabling drop check, item can be dropped everywhere, even on itself. ( to prevent error user must add own code to control drag and drop)
+  <br/>If drop check enabled (default behavior) item can't be dropped on itself, or on any from its children.</p>
+	<table>
+		<tr>
+			<td>
+				<div id="treeboxbox_tree" style="width:250px; height:218px;background-color:#f5f5f5;border :1px solid Silver;"></div>
+			</td>
+			<td rowspan="2" style="padding-left:25" valign="top">
+				<a href="#" onclick="tree.disableDropCheck(false);">Enable drop target checking</a><br>
+				<a href="#" onclick="tree.disableDropCheck(true);">Disable drop target checking</a><br>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+		</tr>
+	</table>
+<br>
+	<script>
+			tree=new dhtmlXTreeObject("treeboxbox_tree","100%","100%",0);
+
+			
+			tree.setImagePath("../../../../dhtmlx/imgs/dhxtree_skyblue/");
+			tree.enableSmartXMLParsing(true);
+            tree.enableDragAndDrop(true);
+			tree.loadXML("../common/tree_05_drag_n_drop.xml")
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Grid linked to tree</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<style>
+		.containerTableStyle {
+			overflow: auto;
+			position: relative;
+			top: 0;
+			font-size: 12px;
+			border: 1px solid #333;
+			background: #fff;
+		}
+	</style>
+	<script>
+		var myGrid, myTree;
+		function doOnLoad(){
+			myTree = new dhtmlXTreeObject("treeboxbox_tree","100%","100%",0);
+			myTree.setImagePath("../../../../dhtmlx/imgs/dhxtree_skyblue/");
+			myTree.setSkin("dhx_skyblue");
+			myTree.loadXML("../common/tree.xml",function(){
+				myGrid = new dhtmlXGridObject('gridbox');
+				myGrid.setImagePath("../../../../dhtmlx/imgs/");
+				myGrid.setHeader("Sales, Book Title, Author,Price,In Store,Shipping,Bestseller,Date of Publication");
+				myGrid.setInitWidths("50,150,100,80,80,80,80,200");
+				myGrid.setColAlign("right,left,left,right,center,left,center,center");
+				myGrid.setColTypes("dyn,ed,stree,price,ch,co,ra,ro");
+				myGrid.setSubTree(myTree,2,0);
+				myGrid.init();
+				myGrid.loadXML("../common/linked_grid.xml");
+			});
+		}
+	</script>
+</head>
+<body onload="doOnLoad()">
+	<h1>Grid linked to tree</h1>
+	<p>Tree can be used as editor for the grid. Try to edit column with authors.</p>
+	<div id="gridbox" style="width: 600px; height: 270px; background-color:white;"></div>
+	<div id="treeboxbox_tree" style="width:300px;height:200px"></div>
+</body>
+</html>

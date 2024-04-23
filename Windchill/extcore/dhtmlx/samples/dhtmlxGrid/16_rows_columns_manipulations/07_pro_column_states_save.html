@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Saving/restoring columns' states</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid, myGrid2;
+		function doOnLoad(){
+		myGrid = new dhtmlXGridObject('gridbox');
+		myGrid.setImagePath("../../../../dhtmlx/imgs/");
+		myGrid.enableColumnMove(true);
+		myGrid.loadXML("../common/gridH.xml");
+		myGrid2 = new dhtmlXGridObject('gridbox2');
+		myGrid2.setImagePath("../../../../dhtmlx/imgs/");
+		myGrid2.enableColumnMove(true);
+		myGrid2.loadXML("../common/gridH.xml",function(){
+			myGrid2.loadOrderFromCookie();
+			myGrid2.loadSortingFromCookie();
+			myGrid2.loadSizeFromCookie();
+			myGrid2.enableAutoSizeSaving();
+			myGrid2.enableSortingSaving();
+			myGrid2.enableOrderSaving();
+		});
+		}
+	</script>
+</head>
+<body onload="doOnLoad()">
+	<h1>Saving\restoring columns' states</h1>
+	<p>Try to sort, move columns or change their width and then reload page. Grid's API allows to restore these states automatically or on demand *</p>
+	<table width="600" cellpadding="0" cellspacing="0">
+		<tr>
+			<td>
+				<div id="gridbox" style="width:100%;height:270px;background-color:white;"></div>
+				<div align="center">
+					<table cellspacing="3" cellpadding="0" border="0">
+						<tr><td align="right"> <input type="button" name="a1" value="save columns width" onclick="myGrid.saveSizeToCookie()"></td><td width="5" rowspan="3"></td><td bgcolor="black" rowspan="3" width="1"></td><td width="5" rowspan="3"></td><td><input type="button" name="a1" value="restore columns width" onclick="myGrid.loadSizeFromCookie()"></td></tr>
+						<tr><td align="right"><input type="button" name="a1" value="save sorting" onclick="myGrid.saveSortingToCookie()"></td><td><input type="button" name="a1" value="restore sorting" onclick="myGrid.loadSortingFromCookie()"></td></tr>
+						<tr><td align="right"><input type="button" name="a1" value="save order" onclick="myGrid.saveOrderToCookie()"></td><td><input type="button" name="a1" value="restore order" onclick="myGrid.loadOrderFromCookie()"></td></tr>
+					</table>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<p>Automatically Save/Restore columns' states</p>
+				<div id="gridbox2" style="width:100%;height:270px;background-color:white;"></div>
+			</td>
+		</tr>
+	</table>
+	<br>
+	* - cookies must be enabled
+</body>
+</html>

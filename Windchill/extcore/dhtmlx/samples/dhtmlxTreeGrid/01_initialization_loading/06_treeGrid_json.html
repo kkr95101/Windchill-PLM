@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!--pro-->
+<html>
+<head>
+	<title>TreeGrid initialization from JSON (dhtmlx format)</title>	
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+</head>
+
+<body>
+	<h1>TreeGrid initialization</h1>
+	<p>
+            TreeGrid is initialized via script and populated from xml source
+	</p>
+
+
+				<div id="gridbox" style="width:570px;height:137px;background-color:white;"></div>
+		
+<br>
+
+
+ 
+<script>
+
+		mygrid = new dhtmlXGridObject('gridbox');
+		mygrid.setImagePath("../../../../dhtmlx/imgs/");
+		mygrid.setHeader("Tree,Plain Text,Long Text,Color,Checkbox");
+		mygrid.setInitWidths("150,100,100,100,100")
+		mygrid.setColAlign("left,left,left,left,center")
+		mygrid.setColTypes("tree,ed,txt,ch,ch");
+		mygrid.setColSorting("str,str,str,na,str")
+
+		mygrid.init();
+		mygrid.setSkin("dhx_skyblue")
+	   	mygrid.load("../common/data.json", "json");
+
+</script>
+
+
+
+</body>
+</html>

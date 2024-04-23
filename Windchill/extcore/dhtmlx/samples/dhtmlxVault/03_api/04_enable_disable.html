@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Enable/disable vault</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlxvault.css"/>
+	<script src="../../../../dhtmlx/dhtmlxvault.js"></script>
+	<script src="../../../../dhtmlx/swfobject.js"></script>
+	<style>
+		div.sample_title {
+			font-size: 16px;
+			font-family: Tahoma;
+			color: #303030;
+			font-weight: bold;
+			margin: 15px 1px;
+		}
+	</style>
+	<script>
+		var myVault;
+		function doOnLoad() {
+			window.dhx4.ajax.post("../server/upload_conf.php", function(r){
+				var t = null;
+				try {eval("t="+r.xmlDoc.responseText);}catch(e){};
+				if (t != null) myVault = new dhtmlXVaultObject(t);
+			});
+		}
+		function enDis(mode) {
+			if (myVault == null) return;
+			if (mode) myVault.enable(); else myVault.disable();
+		}
+	</script>
+	
+</head>
+<body onload="doOnLoad();">
+	<div class="sample_title">Enable/disable vault</div>
+	<div id="vaultObj" style="width:400px; height:250px;"></div>
+	<br>
+	<input type="button" value="enable"  onclick="enDis(true);">
+	<input type="button" value="disable" onclick="enDis(false);">
+</body>
+</html>

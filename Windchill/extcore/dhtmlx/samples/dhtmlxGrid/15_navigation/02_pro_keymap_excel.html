@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Keymap - excel</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<style>
+		div.gridbox_light table.obj tr.rowselected td.cellselected, div.gridbox table.obj td.cellselected {
+			background-color: #ACCADD;
+		}
+	</style>
+	<script>
+		var myGrid;
+		function doOnLoad(){
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("Sales,Book Title,Author,Price,In Store,Shipping");
+			myGrid.setInitWidths("60,150,100,80,80,80");
+			myGrid.enableAutoWidth(true);
+			myGrid.setColAlign("right,left,left,right,center,left");
+			myGrid.setColTypes("dyn,edtxt,ed,price,ch,co");
+			myGrid.enableMultiselect(true);
+			myGrid.init();
+			myGrid.loadXML("../common/100.xml");
+		}
+	</script>
+</head>
+<body onload="doOnLoad()">
+	<h1>Keymap - excel</h1>
+	<p>There is an opportunity to set one of two keymaps: excel or access. Excel keymap is presented in the sample below:</p>
+	<div id="gridbox"  style="width:600px; height:250px; background-color:white;overflow:hidden"></div>
+	<p> The excel keymap provides the following keys for navigation:<br/>
+		<ul>
+		<li>Up-Arrow / Down-Arrow - navigate to the cell in the next or previous row and select it,</li>
+		<li>Left-Arrow / Right-Arrow - navigate to the cell in the previous or next cell and select it,</li>
+		<li>ARROWS+Ctrl - move to the last/first cell in grid (column/row) -only if editor closed,</li>
+		<li>Page Up / Page Down - navigate to the top / bottom row or to the previous / next page (if paging is enabled),</li>
+		<li>tab - moves one cell forward (close editor),</li>
+		<li>tab+shift - move one cell backward (close editor),</li> 
+		<li>Enter - navigates to the next cell and select it,</li> 
+  		<li>enter+shift - move to cell above (close editor),</li>
+		<li>HOME - moves to the first cell of the row,</li>
+		etc.
+		</ul>
+	</p>
+</body>
+</html>

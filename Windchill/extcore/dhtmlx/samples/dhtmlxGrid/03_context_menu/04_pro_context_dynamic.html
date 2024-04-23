@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Dynamic context menu</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid, myMenu;
+		function doOnLoad(){
+			myMenu = new dhtmlXMenuObject();
+			myMenu.setIconsPath("../common/images/");
+			myMenu.renderAsContextMenu();
+			myMenu.attachEvent("onClick",onButtonClick);
+			myMenu.loadStruct("../common/dyn_context.xml");
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.enableContextMenu(myMenu);
+			myGrid.init();
+			myGrid.attachEvent("onBeforeContextMenu",onShowMenu);
+			myGrid.loadXML("../common/gridH_03_context_menu.xml");
+		}
+		function onButtonClick(menuitemId){
+			var data=myGrid.contextID.split("_"); //rowInd_colInd
+			var rId = data[0];
+			var cInd = data[1];
+			switch(menuitemId){
+				case "add":
+					myGrid.addRow((new Date()).valueOf(),["","","","","","","",""],myGrid.getRowIndex(data[0]));
+					break;
+				case "delete":
+					window.setTimeout("mygrid.deleteRow("+rId+");",200);
+					break;
+				case "inc":
+					var value = parseFloat(myGrid.cells(rId,cInd).getValue())+100;
+					myGrid.cells(rId,cInd).setValue(value);
+					break;
+				case "dec":
+					var value = parseFloat(myGrid.cells(rId,cInd).getValue())-200;
+					myGrid.cells(rId,cInd).setValue(value);
+					break;
+				case "link":
+					var url = myGrid.getUserData(rId,"link");
+					if(url) window.open(url);
+					else alert("Page for this author wasn't set");
+					break;
+				case "edit":
+					var rIndex = myGrid.getRowIndex(rId);
+					myGrid.selectCell(rIndex,cInd);
+					myGrid.editCell();
+					break;
+				case "set_avail":
+					myGrid.cells(rId,cInd).setValue(1);
+					break;
+				case "set_unavail":
+					myGrid.cells(rId,cInd).setValue(0);
+					break;
+				case "del_best":
+					myGrid.cells(rId,cInd).setValue(0);
+					break;
+				case "add_best":
+					myGrid.cells(rId,cInd).setValue(1);
+					break;
+			}
+		}
+		function onShowMenu(rowId,celInd,grid){
+			var arr = ["inc","dec","link","edit","set_avail","set_unavail","del_best","add_best"];
+			for(var i = 0 ; i < arr.length; i++){
+				myMenu.hideItem(arr[i]);
+			}
+			switch(celInd){
+				case 0:
+					myMenu.showItem("inc");
+					myMenu.showItem("dec");
+					break;
+				case 1:
+					myMenu.showItem("link");
+					break;
+				case 2:
+					myMenu.showItem("link");
+					break;
+				case 3:
+					myMenu.showItem("edit");
+					break;
+				case 4:
+					myMenu.showItem("set_avail");
+					myMenu.showItem("set_unavail");
+					break;
+				case 6:
+					myMenu.showItem("del_best");
+					myMenu.showItem("add_best");
+					break;
+			}
+			return true
+		}
+	</script>
+</head>
+<body onload="doOnLoad()">
+	<h1>Dynamic context menu</h1>
+	<p>In example below context menu is one for all columns, but it is shown differently by using  hideButtons/showButtons menu methods.</p>
+	<table>
+		<tr>
+			<td>
+				<div id="gridbox" style="width:600px;height:270px;background-color:white;"></div>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

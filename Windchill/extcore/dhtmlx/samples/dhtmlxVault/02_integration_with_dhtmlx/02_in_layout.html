@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Attach vault to layout</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+    <script src="../../../../dhtmlx/dhtmlx.js"></script>   
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlxvault.css"/>
+	<script src="../../../../dhtmlx/dhtmlxvault.js"></script>
+	<script src="../../../../dhtmlx/swfobject.js"></script>
+
+	    <style>
+        div#layoutObj {
+            position: relative;
+            margin-top: 20px;
+            margin-left: 20px;
+            width: 600px;
+            height: 400px;
+        }
+    </style>
+  <script>
+		// in case of attach to dhtmlx component
+		// vault.js should be included after container.js
+		
+		var myLayout, myVault;
+		function doOnLoad() {
+			if (typeof(dhtmlXLayoutObject) == "undefined") {
+				alert("dhtmlxLayout required for this demo.");
+				return;
+			}
+			myLayout = new dhtmlXLayoutObject("layoutObj", "2U");
+			myLayout.cells("a").setText("dhtmlxVault");
+			window.dhx4.ajax.post("../server/upload_conf.jsp", function(r){
+				var t = null;
+				try {eval("t="+r.xmlDoc.responseText);}catch(e){};
+				if (t != null) myVault = myLayout.cells("a").attachVault(t);
+			});
+		}
+	</script>
+</head>
+<body onload="doOnLoad();">
+	<div id="layoutObj" style="position: relative; top: 20px; left: 20px; width: 600px; height: 400px;"></div>
+</body>
+</html>
+

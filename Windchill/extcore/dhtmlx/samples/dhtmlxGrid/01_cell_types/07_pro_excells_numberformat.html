@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Date/Decimal format</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+    <script>
+		var myGrid;
+		function doOnLoad() {
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("N.format colored,N.format readonly, Date");
+			myGrid.setInitWidths("100,100,100");
+			myGrid.setColAlign("right,right,right");
+			myGrid.setColTypes("edncl,ednro,dhxCalendar");
+			myGrid.setNumberFormat("$0,000",0);
+			myGrid.setNumberFormat("@000.00Zbh",1);
+			myGrid.setDateFormat("%m-%d-%Y");
+			myGrid.setColSorting("int,int,date");
+			myGrid.enableAutoWidth(true);
+			myGrid.init();
+			myGrid.loadXML("../common/grid_format.xml");
+		}
+		//extended simple editor (with number format support) to use color for numbers
+		function eXcell_edncl(cell){
+			this.base = eXcell_edn;
+			this.base(cell)
+			this.setValue = function(val){
+					if(!val || val.toString()._dhx_trim()=="")
+						val="0";
+					if(val>=0)
+						this.cell.style.color = "green";
+					else
+						this.cell.style.color = "red";
+					this.cell.innerHTML = this.grid._aplNF(val,this.cell._cellIndex);
+			}
+		
+		}
+		eXcell_edncl.prototype = new eXcell_edn;
+		//extended simple editor (with number format support) to be readonly
+		function eXcell_ednro(cell){
+			this.base = eXcell_edn;
+			this.base(cell);
+			this.isDisabled=function(){
+				return true;
+			}
+			this.edit = function(){
+				return false;
+			}
+			this.detach = function(){
+				return false;
+			}
+		}
+		eXcell_ednro.prototype = new eXcell_edn;
+</script>
+</head>
+<body onload="doOnLoad()">
+	<h1>Date/Decimal format</h1>
+	<p>You can set Date and Decimal number formats using <code>setDateFormat</code> and <code>setNumberFormat</code> methods</p>
+	<div id="gridbox" style="width:452px;height:215px;background-color:white;"></div>
+</body>
+</html>

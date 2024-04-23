@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Date/Decimal format</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid;
+		var prev_format = "%d/%m-%Y";
+		function doOnLoad(){
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("N.format,N.format,Date format");
+			myGrid.setInitWidths("100,100,200");
+			myGrid.setColAlign("right,left,center");
+			myGrid.setColTypes("edn,edn,dhxCalendar");
+			myGrid.setDateFormat("%d/%m-%Y");
+			myGrid.setNumberFormat("$0,000",0);
+			myGrid.setNumberFormat("@000.00Zbh",1);
+			myGrid.setColSorting("int,int,date");
+			myGrid.init();
+			myGrid.loadXML("../common/grid_formatting.xml");
+		}
+		function doItOnce(a,b){
+			var z=myGrid.serialize();
+			myGrid.clearAll();
+			if (b!=2){
+				myGrid.setNumberFormat(a,b);
+				myGrid.setDateFormat(prev_format,prev_format);
+			}else{
+				myGrid.setDateFormat(a,prev_format);
+				prev_format=a;
+			}
+			myGrid.loadXMLString(z);
+		}
+	</script>
+</head>
+<body onload="doOnLoad()">
+	<h1>Date/Decimal format</h1>
+	<p>
+        You have possibility to edit data in columns of the grid. Try to edit Calendar and Numeric fields:</p>
+	<div id="gridbox" style="width:400px;height:210px;background-color:white;"></div>
+	Format of the first column:
+	<input id='a01' value='$0,000'><input type='button' value='Update' onclick='doItOnce(this.previousSibling.value,0)'><br/>
+	Format of the second column: 
+	<input id='a01' value='@000.00Zbh'><input type='button' value='Update' onclick='doItOnce(this.previousSibling.value,1)'><br/>
+	Format of the third column (d,m,y): 
+	<input id='a01' value='%Y-%d/%m'><input type='button' value='Update' onclick='doItOnce(this.previousSibling.value,2)'>
+</body>
+</html>

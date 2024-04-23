@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Extra Excell types</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid;
+		function doOnLoad() {
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("Sales,Book Title,List,Calculator,New Checkbox,Image");
+			myGrid.setInitWidths("50,100,250,80,80,100");
+			myGrid.setColAlign("right,left,left,right,left,center");
+			myGrid.setColTypes("dyn,ed,clist,calck,acheck,img");
+			myGrid.setColSorting("int,str,str,int,str,date");
+			myGrid.registerCList(2,["Stephen King","John Grisham","Honore de Balzac"]);
+			myGrid.enableAutoWidth(true);
+			myGrid.init();
+			myGrid.loadXML("../common/grid_extra.xml");
+		}
+	</script>
+</head>
+<body onload="doOnLoad()">
+	<h1>Extra eXcell types</h1>
+	<p>There are several eXcell types available in dhtmlxGrid:
+	<ul>
+		<li>List <code>&quot;clist&quot;</code>
+			- list of values, which is displayed as comma delimited list in cells</li>
+		<li>Calculator <code>&quot;calck&quot;</code>
+			- allows you to make some math calculations</li>
+		<li>New Checkbox <code>&quot;acheck&quot;</code> - skinable two-state control</li>
+		<li>Image <code>&quot;img&quot;</code> - allow to insert image into the grid cell</li>
+	</ul>
+	</p>
+	<div id="gridbox" style="width:670px;height:250px;background-color:white;"></div>
+</body>
+</html>

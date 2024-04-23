@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Colspan in Grid</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid;
+		function doOnLoad(){
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("Sales,Book Title,Author,Price,In Store,Shipping,Bestseller,Date of Publication");
+			myGrid.setInitWidths("50,150,120,80,80,80,80,200");
+			myGrid.setColAlign("center,left,left,right,center,left,center,center");
+			myGrid.setColTypes("dyn,ed,ed,price,ch,co,ro,ro");
+			myGrid.getCombo(5).put(2,2);
+			myGrid.setColSorting("int,str,str,int,str,str,str,date");
+			myGrid.enableMultiselect(true);
+			myGrid.enableCollSpan(true);
+			myGrid.init();
+			myGrid.loadXML("../common/grid_cp.xml");
+		}
+	</script>
+</head>
+<body onload="doOnLoad()">
+	<h1>Colspan in Grid</h1>
+	<p>You can easily enable colspan mode for any cells in your grid by setting enableCollSpan method to true.</p>
+	<div id="gridbox" style="width:600px; height:270px; background-color:white;overflow:hidden"></div>
+</body>
+</html>

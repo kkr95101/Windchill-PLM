@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Grid in split mode</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid;
+		function doOnLoad(){
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("Sales,Book Title,Author,Price,In Store,Shipping,Bestseller,Date of Publication");
+			myGrid.setInitWidths("50,150,120,80,80,80,80,200");
+			myGrid.setColAlign("right,left,left,right,center,left,center,center");
+			myGrid.setColTypes("dyn,ed,ed,price,ch,co,ra,ro");
+			myGrid.getCombo(5).put(2,2);
+			myGrid.setColSorting("int,str,str,int,str,str,str,date");
+			myGrid.init();
+			myGrid.splitAt(2);
+			myGrid.loadXML("../common/grid.xml");
+		}
+		function doSerialize(){
+			myGrid.setSerializationLevel(false,false,false);
+			document.getElementById("alfa1").innerHTML=myGrid.serialize().replace(/\</g,"&lt;").replace(/\>/g,"&gt;").replace(/\&lt;row/g,"<br/>&lt;row");
+		}
+	</script>
+</head>
+<body onload="doOnLoad()">
+	<h1>Grid in split mode</h1>
+	<p>Using split mode allows you to have grid separated into two parts with independent horizontal scrolling.</p>
+	<div id="gridbox" style="width:600px;height:260px;background-color:white;"></div>
+	<br />
+	<div><a href="#" onClick="myGrid.selectRow(this.nextSibling.value)">Select row</a><input id="" type="text" value="2"/></div>
+	<div><a href="javascript:void(0)" onClick="myGrid.addRow((new Date()).valueOf(), ['new','new','new'], 2)">Add row</a></div>
+	<div><a href="#" onClick="myGrid.deleteRow(myGrid.getSelectedId())">Delete selected row</a></div>
+	<div><a href="#" onClick="doSerialize()">Serialize</a></div>
+	<div><a href="#" onClick="myGrid.clearAll();">Clear all</a></div>
+	<div><a href="#" onClick="myGrid.loadXML('../common/grid.xml')">Load XML</a></div>
+	<div><a href="#" onClick="myGrid.cells(myGrid.getSelectedId(),this.nextSibling.value).setValue('new value');">Cells : setValue for selected row, column index:</a><input id="" type="text" value="1"/></div>
+	<div id="alfa1"></div>
+</body>
+</html>

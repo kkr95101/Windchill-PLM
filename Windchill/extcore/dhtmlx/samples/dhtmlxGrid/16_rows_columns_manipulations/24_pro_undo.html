@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Undo/Redo</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid;
+		function doOnLoad(){
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("Sales,Book Title,Author,Price,In Store,Shipping,Bestseller,Date of Publication");
+			myGrid.setInitWidths("50,150,120,80,80,80,80,200");
+			myGrid.setColAlign("right,left,left,right,center,left,center,center");
+			myGrid.setColTypes("dyn,ed,ed,price,ch,co,ra,ro");
+			myGrid.setColSorting("int,str,str,int,str,str,str,date");
+			myGrid.init();
+			myGrid.loadXML("../common/grid_16_rows_columns_manipulations.xml");
+			myGrid.enableUndoRedo();
+		}
+	</script>
+</head>
+<body onload='doOnLoad()'>
+	<h1>Undo/Redo</h1>
+	<p>Just edit any data in grid, and then you can check UNDO | REDO functionality which allows you to restore previous state of data.</p>
+	<table width="600px">
+		<tr>
+			<td width="50%" valign="top">
+				<div id="gridbox" style="width:100%;height:270px;background-color:white;"></div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div><input id='z1' type="button"  onclick='myGrid.doUndo();' value='Undo'></div>
+				<div><input id='z1' type="button"  onclick='myGrid.doRedo();' value='Redo'></div>
+				<div><input id='z1' type="button"  onclick='alert(myGrid.getRedo().length);' value='Get redo count'></div>
+				<div><input id='z1' type="button"  onclick='alert(myGrid.getUndo().length)' value='Get undo count'></div>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

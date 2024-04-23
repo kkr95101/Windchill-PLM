@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Date/Decimal format from XML</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid;
+		function doOnLoad(){
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.loadXML("../common/grid_formatX.xml");
+		}
+	</script>
+</head>
+<body onload="doOnLoad()">
+	<h1>Date/Decimal format from XML</h1>
+	<p> You are allowed to specify  formats of columns containing date and numeric data within XML file. Columns with numeric data should have edn or ron format, columns with calendar - dhxCalendar, dhxCalendarA format.</p>
+	<p>Try to edit Calendar and Numeric fields: </p>
+	<div id="gridbox" style="width:790px;height:250px;background-color:white;"></div>
+</body>
+</html>

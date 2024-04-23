@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title> Custom error handlers</title>
+</head>
+
+<body>
+	<h1>Custom error handlers</h1>
+  <p>The current sample demonstrates how custom errors notifications look like. You can ealisy set the error handler using the code mentioned below.</p>
+
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<table>
+		<tr>
+			<td>
+				<div id="treeboxbox_tree" style="width:250px; height:218px;background-color:#f5f5f5;border :1px solid Silver;"/>
+			</td>
+			<td rowspan="2" style="padding-left:25" valign="top">
+
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+		</tr>
+	</table>
+
+	<script>
+
+            function my_error_handler(name, xhr){
+           		 alert("My error handler \n"+name+"\n Status:"+xhr.status);
+            }
+            dhx4.attachEvent("onLoadXMLError",my_error_handler);
+			tree=new dhtmlXTreeObject("treeboxbox_tree","100%","100%",0);
+
+			
+			
+			tree.setImagePath("../../../../dhtmlx/imgs/dhxtree_skyblue/");
+			tree.loadXML("incorrect.xml")
+	</script>
+<br><br>
+
+</body>
+</html>

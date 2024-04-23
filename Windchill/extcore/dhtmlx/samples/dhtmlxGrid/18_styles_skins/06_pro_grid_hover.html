@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Row hovering</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<style>
+		.grid_hover {
+			background-color:#7FFFD4;
+			font-size:20px;
+		}
+	</style>
+	<script>
+		var myGrid;
+		function doOnLoad() {
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("Sales,Book Title,Author,Price,In Store,Shipping,Bestseller,Date of Publication");
+			myGrid.setInitWidths("50,150,120,80,80,80,80,200");
+			myGrid.setColAlign("right,left,left,right,center,left,center,center");
+			myGrid.setColTypes("dyn,ed,ed,price,ch,co,ra,ro");
+			myGrid.attachEvent("onRowSelect",doOnRowSelect);
+			myGrid.getCombo(5).put(2,2);
+			myGrid.setColSorting("int,str,str,int,str,str,str,date");
+			myGrid.enableMultiselect(true);
+			myGrid.init();
+			myGrid.loadXML("../common/grid.xml");
+		}
+		function doOnRowSelect(id){
+			document.getElementById("a_1").innerHTML="Selected row: "+id;
+		}
+	</script>
+</head>
+<body onload="doOnLoad()">
+	<h1>Row hovering</h1>
+	<p>enableRowsHover allows you to enable/disable hovering row under mouse.</p>
+	<table width="600px">
+		<tr>
+			<td width="50%" valign="top">
+				<div id="gridbox" style="width:100%;height:270px;background-color:white;"></div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<a href="#" onClick="myGrid.enableRowsHover(true,'grid_hover')">enable hovering</a><br>
+				<a href="#" onClick="myGrid.enableRowsHover(false)">disable hovering</a><br>
+                <div id="a_1"></div>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

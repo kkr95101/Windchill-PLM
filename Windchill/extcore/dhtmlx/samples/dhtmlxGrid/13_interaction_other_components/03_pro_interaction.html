@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>dhtmlxGrid & dhtmlxTree interaction</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid,myTree;
+		function doOnLoad(){
+			myGrid = new dhtmlXGridObject('gridbox');
+			myTree=new dhtmlXTreeObject("treeboxbox_tree","100%","100%",0);
+			setTimeout(buildTree,10);
+			setTimeout(buildGrid,11)
+		}
+		function buildTree(){
+			myTree.setImagePath("../../../../dhtmlx/imgs/dhxtree_skyblue/");
+			myTree.enableDragAndDrop(true);
+			myTree.setSkin("dhx_skyblue");
+			myTree.loadXML("../common/tree3.xml");
+			myTree.setOnClickHandler(getMetaData)
+		}
+		function buildGrid(){
+			//set grid parameters
+			myGrid.selMultiRows = true;
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("Sales,Book Title,Author,Price");
+			myGrid.setInitWidths("50,150,120,80");
+			myGrid.setColAlign("right,left,left,right");
+			myGrid.setColTypes("dyn,ed,ed,price");
+			myGrid.setColSorting("int,str,str,int");
+			myGrid.setMultiLine(true);
+			myGrid.enableDragAndDrop(true);
+			//start grid
+			myGrid.init();
+			myGrid.loadXML("../common/grid.xml");
+			//redefine tree-to-grid drop element
+			myGrid.treeToGridElement = function(treeObj,treeNodeId,gridRowId){
+				return [0,treeObj.getItemText(treeNodeId)];
+			};
+			//redefine grid-to-tree drop element
+			myGrid.gridToTreeElement = function(treeObj,treeNodeId,gridRowId){
+				return this.cells(gridRowId,1).getValue()+"/"+this.cells(gridRowId,2).getValue();
+			};
+			myGrid.rowToDragElement = function (id){
+				if(this.cells(id,2).getValue()!="")
+					return this.cells(id,2).getValue()+"/"+this.cells(id,1).getValue();
+				return this.cells(id,1).getValue();
+			}
+		}
+		function getMetaData(id){
+			if(myTree.getUserData(id,"c0")){
+				alert("Sales dynamic is: "+myTree.getUserData(id,"c0")+"\nPrice is: "+(myTree.getUserData(id,"c3")||"na"))
+			}
+		}
+		function dnd_copyA(mode){
+			myGrid.enableMercyDrag(mode);
+			myTree.enableMercyDrag(mode);
+		}
+	</script>
+</head>
+<body onload="doOnLoad()">
+	<h1>dhtmlxGrid & dhtmlxTree interaction</h1>
+	<p>Implementing both dhtmlxGrid & <a href="http://www.scbr.com/docs/products/dhtmlxTree/index.shtml">dhtmlxTree</a>
+	in your application you can improve flexibility and functionality of its user interface by interaction between these components.<br> 
+	Drag-and-drop elements from tree to grid and vice versa. 
+	</p>
+	<input type="checkbox" id="dnd_copy" onclick='dnd_copyA(this.checked)'> Copy elements when drag-n-drop between tree and grid;
+	<table>
+		<tr>
+			<td>
+				<div id="treeboxbox_tree" style="width:250px; height:260px;background-color:#f5f5f5;border :1px solid Silver;overflow:auto;"/>
+			</td>
+			<td width="50px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td>
+				<div id="gridbox" style="width:400px;height:250px;background-color:white;overflow:hidden"></div>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

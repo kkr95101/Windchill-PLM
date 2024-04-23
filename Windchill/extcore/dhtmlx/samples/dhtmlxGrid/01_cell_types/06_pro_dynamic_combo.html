@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Configuring combo boxes on the fly</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<style>
+		.even{
+			background-color:#E6E6FA;
+		}
+		.uneven{
+			background-color:#F0F8FF;
+		}
+	</style>
+	<script>
+		var myGrid;
+		function doOnLoad(){
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.attachEvent("onEditCell",doOnEditCell);
+			myGrid.loadXML("../common/gridH.xml");
+			myGrid.enableAlterCss("even","uneven");
+		}
+		function doOnEditCell(stage,id,index){
+			var ind = myGrid.getRowIndex(id);
+			if ((index==5)&&(stage==0)) // start edit Shipping column
+				{
+				var combo = myGrid.getCombo(5);
+				if (ind%2==1){ // for even rows
+					combo.save(); // save initial state
+					combo.remove(1);
+					combo.remove(2);
+					combo.remove(3);
+					}
+					else{
+					combo.save(); // save initial state
+					combo.remove(4);
+					combo.remove(5);
+					combo.remove(6);
+					}
+				}
+			if ((index==5)&&(stage==2)) // for finishing edit
+				myGrid.getCombo(5).restore(); // restore combo state
+			return true;
+		}
+	</script>
+</head>
+<body onload="doOnLoad()">
+	<h1>Configuring  combo boxes on the fly</h1>
+	<p>The comboboxes have different values for even and uneven rows (the Shipping column).</p>
+	<div id="gridbox" style="width:600px;height:270px;background-color:white;"></div>
+</body>
+</html>

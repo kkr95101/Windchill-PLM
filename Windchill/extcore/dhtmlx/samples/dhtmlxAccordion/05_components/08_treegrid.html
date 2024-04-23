@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Integration with dhtmlxTreeGrid</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myAcc,myTreeGrid;
+		function doOnLoad(){
+			myAcc = new dhtmlXAccordion({
+				parent: "accObj",
+				items: [
+					{id: "a1", text: "dhtmlxTreeGrid"},
+					{id: "a2", text: "b"},
+					{id: "a3", text: "c"}
+				]
+			});
+			//
+			myTreeGrid = myAcc.cells("a1").attachGrid();
+			myTreeGrid.setSkin("dhx_skyblue");
+			myTreeGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myTreeGrid.loadXML("../common/treegrid.xml");
+		}
+	</script>
+</head>
+<body onload="doOnLoad();">
+	<div id="accObj" style="position: relative; width: 320px; height: 400px;"></div>
+</body>
+</html>

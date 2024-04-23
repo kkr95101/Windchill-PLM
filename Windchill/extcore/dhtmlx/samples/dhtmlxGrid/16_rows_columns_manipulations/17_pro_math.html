@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Math calculations</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid;
+		function doOnLoad(){
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("Book Title,Author,Price,Quantity,Total");
+			myGrid.setInitWidths("150,120,80,80,80");
+			myGrid.setColAlign("left,left,right,right,right");
+			myGrid.setColTypes("ed,ed,price,ed,ed[=c2*c3]");
+			myGrid.setColSorting("str,str,int,int,int");
+			myGrid.setMathRound(2);
+			myGrid.enableMathEditing(true);
+			myGrid.init();
+			myGrid.loadXML("../common/grid_math.xml");
+		}
+	</script>
+</head>
+<body onload="doOnLoad()">
+	<h1>Math calculations</h1>
+	<p>
+	You can easily calculate values using math formulas. Also you are allowed to edit formulas on the fly
+	by changing values in the quantity column:</p>	
+	<div id="gridbox" style="width:510px;height:255px;background-color:white;"></div>
+	<p>Notice that this functionality can be used once you include codebase/ext/dhtmlxgrid_math.js file in the code of your grid.</p>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Adding records</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlxvault.css"/>
+	<script src="../../../../dhtmlx/dhtmlxvault.js"></script>
+	<script src="../../../../dhtmlx/swfobject.js"></script>
+	<style>
+		div.sample_title {
+			font-size: 16px;
+			font-family: Tahoma;
+			color: #303030;
+			font-weight: bold;
+			margin: 15px 1px;
+		}
+	</style>
+	<script>
+		var myVault;
+		function doOnLoad() {
+			window.dhx4.ajax.post("../server/upload_conf.php", function(r){
+				var t = null;
+				try {eval("t="+r.xmlDoc.responseText);}catch(e){};
+				if (t != null) {
+					myVault = new dhtmlXVaultObject(t);
+					myVault.addFileRecord({name: "Conference Schedule.xlsx", size: 33233}, "uploaded");
+					myVault.addFileRecord({name: "GNU GPL v3.docx", size: 140240}, "uploaded");
+					myVault.addFileRecord({name: "Learning DHTMLX Suite.docx", size: 179618}, "uploaded");
+				}
+			});
+		}
+	</script>
+	
+</head>
+<body onload="doOnLoad();">
+	<div class="sample_title">Adding records</div>
+	<div id="vaultObj" style="width:400px; height:250px;"></div>
+</body>
+</html>

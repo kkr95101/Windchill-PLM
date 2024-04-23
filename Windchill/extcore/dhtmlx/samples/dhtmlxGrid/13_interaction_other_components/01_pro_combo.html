@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Integration with dhtmlxCombo</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid;
+		function doOnLoad() {
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.loadXML("../common/combo.xml");
+		}
+	</script>
+</head>
+<body onload="doOnLoad();">
+	<H1>Integration with dhtmlxCombo</H1>
+	<p>Integration with dhtmlxCombo is supported in dhtmlxGrid. Double click on any item in the grid and check this functionality.</p> 
+	<div id="gridbox" style="width:450px; height:230px; background-color:white;"></div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>FORM integration</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid;
+		function doOnLoad() {
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("Sales, Book Title, Author");
+			myGrid.setInitWidths("150,150,*");
+			myGrid.setColAlign("left,left,left");
+			myGrid.setColTypes("dyn,txt,ed");
+			myGrid.setColSorting("str,str,str");
+			myGrid.init();
+			myGrid.loadXML("../common/grid.xml");
+		}
+	</script>
+</head>
+<body onload="doOnLoad()">
+	<h1>FORM integration</h1>
+	<p>
+		Edit something in grid and press submit (requires PHP)
+	</p>
+	<form action="php/pro_form.php" method="post" target="result">
+		<table width="600">
+			<tr>
+				<td>
+					<div id="gridbox" style="width:100%; height:270px; background-color:white;"></div>
+				</td>
+			</tr>
+		</table>
+		<input type="submit">
+	</form>
+	<iframe id="result" name="result" width="600px" height="200px"></iframe>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Smart Rendering and colspan</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid;
+		function doOnLoad(){
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("Sales,Book Title,Author,Price,In Store,Shipping,Bestseller,Date of Publication");
+			myGrid.setInitWidths("50,150,120,80,80,80,80,200");
+			myGrid.setColAlign("right,left,left,right,center,left,center,center");
+			myGrid.setColTypes("ed,ed,ed,price,ch,co,ro,ro");
+			myGrid.enableCollSpan(true);
+			myGrid.getCombo(5).put(2,2);
+			myGrid.setColSorting("int,str,str,int,str,str,str,date");
+			myGrid.attachEvent("onXLS",function(){ document.getElementById("a_1").style.display="block"; });
+			myGrid.attachEvent("onXLE",function(){ document.getElementById("a_1").style.display="none"; });
+			myGrid.init();
+			myGrid.enableSmartRendering(true);
+			myGrid.loadXML("../common/smartrend_cl.xml");
+		}
+	</script>
+</head>
+<body onload="doOnLoad()">
+	<h1>Smart Rendering and colspan</h1>
+	<p>You are allowed to enable both smart rendering and colspan modes in your grid.</p>
+	<div style="height:20px;">
+		<div id="a_1" style="color:red;">Loading data</div>
+	</div>
+	<div id="gridbox" style="width:600px; height:250px; background-color:white;overflow:hidden"></div>
+	<a href="javascript:void(0)" onClick="myGrid.setSelectedRow('r36');">Select row with id=r36; myGrid.setSelectedRow("r36");</a><br/>
+	<a href="javascript:void(0)" onClick="myGrid.setSelectedRow('r72');">Select row with id=r72; myGrid.setSelectedRow("r72");</a><br/>
+</body>
+</html>

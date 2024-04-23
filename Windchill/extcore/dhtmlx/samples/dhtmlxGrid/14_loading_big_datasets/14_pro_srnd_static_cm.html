@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Smart Rendering (static) :: Column move</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid;
+		function doOnLoad(){
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("Sales,Book Title,Author,Price,In Store,Shipping,Bestseller,Date of Publication");
+			myGrid.setInitWidths("50,150,120,80,80,80,80,200");
+			myGrid.setColAlign("right,left,left,right,center,left,center,center");
+			myGrid.setColTypes("ed,ed,ed,price,ch,co,ro,ro");
+			myGrid.getCombo(5).put(2,2);
+			myGrid.setColSorting("int,str,str,int,str,str,str,date");
+			myGrid.enableColumnMove(true);
+			myGrid.attachEvent("onXLS",function(){ document.getElementById("a_1").style.display="block"; });
+			myGrid.attachEvent("onXLE",function(){ document.getElementById("a_1").style.display="none"; });
+			myGrid.init();
+			myGrid.enableSmartRendering(true);
+			myGrid.loadXML("../common/smartrend.xml");
+		}
+	</script>
+</head>
+<body onload="">
+	<h1>Smart Rendering with single loading :: Column move</h1>
+	<p>You are allowed to change position of columns in grid. Check this functionality in the sample below.</p>
+	<div style="height:20px;">
+		<div id="a_1" style="color:red;">Loading whole data (2,000 rows) at once</div>
+	</div>
+	<div id="gridbox" style="width:600px; height:250px; background-color:white;overflow:hidden"></div>
+	<a href="javascript:void(0)" onclick='myGrid.setSelectedRow("r212");'>Select row with id=r212; myGrid.setSelectedRow("r212");</a><br/>
+	<a href="javascript:void(0)" onclick='myGrid.setSelectedRow("r512");'>Select row with id=r512; myGrid.setSelectedRow("r512");</a><br/>
+	<a href="javascript:void(0)" onclick='myGrid.setSelectedRow("r786");'>Select row with id=r786; myGrid.setSelectedRow("r786");</a><br/>
+</body>
+</html>

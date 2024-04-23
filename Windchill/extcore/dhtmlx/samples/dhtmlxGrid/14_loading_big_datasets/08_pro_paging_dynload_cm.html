@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Paginal Output :: Insert/Delete/Move column</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid;
+		function doOnLoad(){
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("Column A, Column B");
+			myGrid.setInitWidths("100,250");
+			myGrid.setColAlign("right,left");
+			myGrid.setColTypes("ro,ed");
+			myGrid.setColSorting("na,na");
+			myGrid.enablePaging(true,30,null,"pagingArea",true,"recinfoArea");
+			myGrid.enableColumnMove(true);
+			myGrid.init();
+			myGrid.setPagingSkin("bricks");
+			myGrid.loadXML("php/dynscroll.php");
+		}
+	</script>
+</head>
+<body onLoad="doOnLoad()">
+	<h1>Paginal Output :: Insert/Delete/Move column </h1>
+	<p>Inserting and deleting row,  column and moving  operations with paginal output are demonstrated in this sample.</p>
+	<table width="600">
+		<tr>
+			<td id="recinfoArea"></td>
+		</tr>
+		<tr>
+			<td>
+				<div id="gridbox" style="width:62%; height:250px; background-color:white;overflow:hidden"></div>
+			</td>
+		</tr>
+		<tr>
+			<td id="pagingArea"></td>
+		</tr>
+	</table>
+	<a href="#" onClick="myGrid.deleteColumn(this.nextSibling.value);">Delete Column</a><select>
+		<option value="0">0</option><option value="1">1</option></select>
+		<br>
+	<a href="#" onClick="myGrid.insertColumn(this.nextSibling.value,'New','ed',200);">Insert new column at</a><select>
+		<option value="0">0</option><option value="1">1</option></select>
+</body>
+</html>

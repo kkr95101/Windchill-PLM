@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Grid linked to menu</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid, myMenu;
+		function doOnLoad() {
+			myMenu = new dhtmlXMenuObject();
+			myMenu.setIconsPath("../common/images/");
+			myMenu.renderAsContextMenu();
+			//
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("Sales,Book Title,Author,Price,In Store,Shipping,Bestseller,Date of Publication");
+			myGrid.setInitWidths("50,150,100,80,80,80,80,200");
+			myGrid.setColAlign("right,left,left,right,center,left,center,center");
+			myGrid.setColTypes("dyn,ed,context,price,ch,co,ra,ro");
+			myGrid.setSubContext(myMenu,2,0);
+			myGrid.init();
+			//
+			myMenu.loadStruct("../common/_context.xml",function(){
+				myGrid.loadXML("../common/grid.xml");
+			});
+		}
+	</script>
+</head>
+<body>
+	<h1>Grid linked to menu</h1>
+	<p>Excell "context" allows to set menu as editor for grid's cell. Just try to edit column with authors.</p>
+	<table width="600px">
+		<tr>
+			<td><div id="gridbox" style="width:100%;height:270px;background-color:white;"></div></td>
+		</tr>
+		<tr>
+			<td><div id="context"></div></td>
+		</tr>
+	</table>
+</body>
+</html>

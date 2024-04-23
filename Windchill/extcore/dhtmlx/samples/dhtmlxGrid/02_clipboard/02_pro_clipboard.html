@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Operations with clipboard</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid;
+		function doOnLoad(){
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("Sales,Book Title,Author,Price,In Store,Shipping,Bestseller,Date of Publication");
+			myGrid.setInitWidths("50,150,100,80,80,80,80,200");
+			myGrid.setColAlign("right,left,left,right,center,left,center,center");
+			myGrid.setColTypes("dyn,ed,ed,price,ch,co,ra,ro");
+			myGrid.getCombo(5).put(2,2);
+			myGrid.enableMultiselect(true);
+			myGrid.init();
+			myGrid.splitAt(1);
+			myGrid.loadXML("../common/grid.xml");
+			window.onerror=function(){
+				alert("Clipboard operations not enabled in your browser.");
+				window.open("http://www.febooti.com/support/website-help/website-javascript-copy-clipboard.html","_blank");
+			}
+		}
+		function copyData(type,delim){
+			myGrid.setCSVDelimiter(delim);
+			if(type=="all"){//copy entire grid
+				myGrid.gridToClipboard();
+			}else if(type=="srows"){//selected row
+				myGrid.rowToClipboard();
+			}else if(type=="cell"){//single cell
+				myGrid.cellToClipboard();
+			}
+		}
+		function serilaizeToCSVWithDelim(delim){
+			myGrid.setCSVDelimiter(delim);
+			document.getElementById('ser_1').value=myGrid.serializeToCSV();
+		}
+	</script>
+</head>
+<body onload="doOnLoad()">
+	<h1>Operations with clipboard</h1>
+	<div id="gridbox" style="width:600px;height:200px;background-color:white;overflow:hidden"></div>
+	<div>
+		<h4>Use as delimiter:</h4>
+		<ul>
+			<li hrei><a href="javascript:void(0)" onclick="serilaizeToCSVWithDelim('\t')">Tab</a> - \t</li>
+			<li><a href="javascript:void(0)" onclick="serilaizeToCSVWithDelim(',')">Comma</a> - ,</li>
+			<li><a href="javascript:void(0)" onclick="serilaizeToCSVWithDelim(document.getElementById('serdelim').value)">Other</a> <input id="serdelim" size="1" maxlength="1"></li>
+		</ul>
+	</div>
+	<div>
+		<h4>Copy</h4>
+		<ul>
+			<li><a href="javascript:void(0)" onclick="copyData('all','\t')">Copy entire grid (with tab as delimiter) to clipboard</a></li>
+			<li><a href="javascript:void(0)" onclick="copyData('srows','\t')">Copy selected row(s) to clipboard</a></li>
+			<li><a href="javascript:void(0)" onclick="copyData('cell','\t')">Copy selected cell to clipboard</a></li>
+		</ul>
+	</div>
+	<div>
+		<h4>Paste CSV content to Grid</h4>
+		<ul>
+			<li><a href="javascript:void(0)" onclick="myGrid.clearAll(); myGrid.gridFromClipboard();">Load grid from clipboard</a></li>
+			<li><a href="javascript:void(0)" onclick="myGrid.updateRowFromClipboard();">Update selected row from clipboard</a></li>
+			<li><a href="javascript:void(0)" onclick="myGrid.addRowFromClipboard();">Add row(s) from clipboard</a></li>
+			<li><a href="#" onclick="myGrid.updateCellFromClipboard();">Update selected cell from clipboard</a></li>
+		</ul>
+	</div>
+	<textarea style="font-size:8pt; font-family:Arial; width:800px; height:150px;" id="ser_1"></textarea>
+	<p>Note: FireFox doesn't allow clipboard activity by default</p>
+</body>
+</html>

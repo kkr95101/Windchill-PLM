@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Paging and split mode</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid;
+		function doOnLoad(){
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("Column A, Column B,Column B1,Column B2,Column B3,Column B4,Column B5");
+			myGrid.setInitWidths("100,250,100,100,100,100,100");
+			myGrid.setColAlign("right,left,left,left,left,left,left");
+			myGrid.setColTypes("ro,ed,ro,ro,ro,ro,ro");
+			myGrid.enablePaging(true,30,null,"pagingArea",true,"recinfoArea");
+			myGrid.attachEvent("onXLS",function(){ document.getElementById("a_1").style.display="block"; });
+			myGrid.attachEvent("onXLE",function(){ document.getElementById("a_1").style.display="none"; });
+			myGrid.init();
+			myGrid.splitAt(1);
+			myGrid.setPagingSkin("bricks");
+			myGrid.loadXML("php/dynscroll.php");
+		}
+	</script>
+</head>
+<body onload="doOnLoad()">
+	<h1>Paging and split mode</h1>
+	<p>Paginal output supports split mode </p>
+	<div style="height:30px">
+        	<div id="a_1" ><h1 style="color:red">Loading</h1></div>
+        </div>
+	<table width="600px" cellpadding="0" cellspacing="0">
+		<tr>
+			<td>
+				<div id="recinfoArea"></div>
+				<div id="gridbox" style="width:100%; height:250px; background-color:white;overflow:hidden"></div>
+				<div id="pagingArea"></div>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Attach vault to window</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="/Windchill/extcore/dhtmlx/dhtmlx_debug.css"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlxvault.css"/>
+    <script src="/Windchill/extcore/dhtmlx/dhtmlx_debug.js"></script>  
+
+	<script src="../../../../dhtmlx/dhtmlxvault.js"></script>
+	<script src="../../../../dhtmlx/swfobject.js"></script>
+	<script>
+		// in case of attach to dhtmlx component
+		// vault.js should be included after container.js
+		
+		var dhxWins, w1, myVault;
+		function doOnLoad() {
+			if (typeof(dhtmlXWindows) == "undefined") {
+				alert("dhtmlxWindows required for this demo.");
+				return;
+			}
+			dhxWins = new dhtmlXWindows();
+			dhxWins.attachViewportTo("winVP");
+			w1 = dhxWins.createWindow("w1", 20, 30, 400, 350);
+			w1.setText("dhtmlxVault");
+			window.dhx4.ajax.post("../server/upload_conf.jsp", function(r){
+				var t = null;
+				try {eval("t="+r.xmlDoc.responseText);}catch(e){};
+				if (t != null) myVault = w1.attachVault(t);
+			});
+		}
+	</script>
+</head>
+<body onload="doOnLoad();">
+	<div id="winVP" style="position: relative; height: 500px; border: #cecece 1px solid; margin: 10px;"></div>
+</body>
+</html>

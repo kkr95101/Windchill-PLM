@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Custom Drag Out</title>
+</head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+<body>
+	
+	<h1>Custom Drag Out</h1>
+	<p>You can drag a node from the tree to some input control on page using the addDragLanding() method.</p>
+	<table>
+		<tr><td>
+			<div id="treeboxbox_tree" style="width:250px; height:218px;background-color:#f5f5f5;border :1px solid Silver;; overflow:auto; float:left"></div></td>
+		<td valign="top">
+			<div style='float:left'>&nbsp;<input type="text" width="120px" id="sInput"></div>
+		</td></tr>
+	</table>
+	
+	
+	<br>
+
+	<script>
+        function maf(){
+            return false;
+        }
+
+			tree=new dhtmlXTreeObject("treeboxbox_tree","100%","100%",0);
+
+
+			
+			tree.setImagePath("../../../../dhtmlx/imgs/dhxtree_skyblue/");
+			tree.enableDragAndDrop(true);
+            tree.setDragHandler(maf);
+			tree.enableSmartXMLParsing(true);
+			tree.loadXML("../common/tree.xml")
+
+			
+			function s_control(){
+			
+				this._drag=function(sourceHtmlObject,dhtmlObject,targetHtmlObject){
+					targetHtmlObject.style.backgroundColor="";
+					targetHtmlObject.value=sourceHtmlObject.parentObject.label;
+				}
+
+				this._dragIn=function(htmlObject,shtmlObject){
+					htmlObject.style.backgroundColor="#fffacd";
+					return htmlObject;
+				}
+
+				this._dragOut=function(htmlObject){
+					htmlObject.style.backgroundColor="";
+					return this;
+				}
+			
+			}
+			var sinput=document.getElementById('sInput');
+			tree.dragger.addDragLanding(sinput, new s_control);
+			
+	</script>
+
+	
+
+</body>
+</html>

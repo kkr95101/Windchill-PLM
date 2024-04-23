@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Change usual icon</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx_debug.css"/>
+    <script src="../../../../dhtmlx/dhtmlx_debug.js"></script>       
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlxvault.css"/>
+	<script src="../../../../dhtmlx/dhtmlxvault.js"></script>
+	<script src="../../../../dhtmlx/swfobject.js"></script>
+	<style>
+		div.sample_title {
+			font-size: 16px;
+			font-family: Tahoma;
+			color: #303030;
+			font-weight: bold;
+			margin: 15px 1px;
+		}
+		div.sample_info {
+			font-size: 11px;
+			font-family: Tahoma;
+			color: #606060;
+			margin: 10px 2px;
+		}
+		.dhx_vault_dhx_skyblue div.dhx_vault_files div.dhx_vault_file_icon.dhx_vault_my_blue_flag div.dhx_vault_all_icons {
+			background-image: url(../common/flag_blue.gif);
+			width: 32px;
+			height: 32px;
+		}
+	</style>
+	<script>
+		var myVault;
+		function doOnLoad() {
+			window.dhx4.ajax.post("../server/upload_conf.jsp", function(r){
+				var t = null;
+				try {eval("t="+r.xmlDoc.responseText);}catch(e){};
+				if (t != null) {
+					myVault = new dhtmlXVaultObject(t);
+					// change txt icon only
+					myVault.conf.icons.txt = "my_blue_flag";
+				}
+			});
+		}
+	</script>
+	
+</head>
+<body onload="doOnLoad();">
+	<div class="sample_title">Change usual icon</div>
+	<div class="sample_info">flag_blue.png set for txt only</div>
+	<div id="vaultObj" style="width:400px; height:250px;"></div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Grid with subgrid</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid;
+		function doOnLoad() {
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("&nbsp;,Book Title,Author,Price,In Store,Shipping,Bestseller,Date of Publication");
+			myGrid.setInitWidths("30,150,100,80,80,80,80,200")
+			myGrid.setColAlign("right,left,left,right,center,left,center,center")
+			myGrid.setColTypes("sub_row,edtxt,ed,price,ch,co,ra,ro");
+			myGrid.init();
+			myGrid.enableAutoHeight(true)
+			myGrid.loadXML("../common/sgrid.xml",function(){
+				myGrid.cells("2",0).open();
+			});
+		}
+	</script>
+</head>
+<body onload="doOnLoad();">
+	<h1>Grid with subgrid</h1>
+	<p>You can set subrow and subgrid ("sub_row_grid" excell) for the grid cell.<br/>
+	Subrow's data can be set in xml ("sub_row" excell) or loaded from other file by ajax ("sub_row_ajax" excell).<br/>
+	Just try to open cell </p>
+	<div id="gridbox" style="width:600px;height:500px;background-color:white;"></div>
+</body>
+</html>

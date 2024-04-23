@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Paging in layout's status bar</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<style>
+		div#layoutObj {
+			position: relative;
+			width: 600px;
+			height: 400px;
+		}
+	</style>
+	<script>
+		var myLayout, myGrid;
+		function doOnLoad() {
+			myLayout = new dhtmlXLayoutObject({
+				parent: "layoutObj",
+				pattern: "2E",
+				cells: [{id: "a", text: "dhtmlxGrid", height: 285}]
+			});
+			
+			// attach status bar
+			myLayout.cells("a").attachStatusBar({
+				text: "<div id='pagingArea'></div>",
+				paging: true
+			});
+			
+			// init grid
+			myGrid = myLayout.cells("a").attachGrid();
+			myGrid.setImagePath("../../../../dhtmlx/imgs/")
+			myGrid.enablePaging(true, 7, 3, "pagingArea");
+			myGrid.setPagingSkin("toolbar");
+			myGrid.loadXML("../common/grid.xml");
+		}
+		
+	</script>
+</head>
+<body onload="doOnLoad();">
+	<div id="layoutObj"></div>
+</body>
+</html>

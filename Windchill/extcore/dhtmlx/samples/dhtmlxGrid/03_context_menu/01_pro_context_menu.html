@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Context menu</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid, myMenu;
+		function doOnLoad(){
+			myMenu = new dhtmlXMenuObject();
+			myMenu.setIconsPath("../common/images/");
+			myMenu.renderAsContextMenu();
+			myMenu.attachEvent("onClick",onButtonClick);
+			myMenu.loadStruct("../common/_context.xml");
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("Author,Title");
+			myGrid.setInitWidths("250,250");
+			myGrid.enableAutoWidth(true);
+			myGrid.setColAlign("left,left");
+			myGrid.setColTypes("ro,link");
+			myGrid.setColSorting("str,str");
+			myGrid.enableContextMenu(myMenu);
+			myGrid.init();
+			myGrid.loadXML("../common/grid_links.xml");
+		}
+		function onButtonClick(menuitemId,type){
+			var data = myGrid.contextID.split("_"); //rowId_colInd
+			myGrid.setRowTextStyle(data[0],"color:"+menuitemId.split("_")[1]);
+			return true
+		}
+	</script>
+</head>
+<body onload="doOnLoad()" onResize="return true;" >
+	<h1>Context menu</h1>
+	<p>There is an opportunity which allows you to set color for any row in the grid. Click right button on any row and select proper color in the context menu.</p>
+	<table width="100%">
+		<tr>
+			<td>
+				<div id="gridbox" style="width:100%;height:270px;background-color:white;"></div>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Subrow excell</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<style>
+		.even{
+			background-color:#E6E6FA;
+		}
+		.uneven{
+			background-color:#F0F8FF;
+		}
+	</style>
+	<script>
+		var myGrid;
+		function doOnLoad(){
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("&nbsp;,Book,Author,Price,In Store,Shipping,Bestseller,Date");
+			myGrid.setInitWidths("30,140,100,80,80,80,80,70");
+			myGrid.setColAlign("right,left,left,right,center,left,center,center");
+			myGrid.setColTypes("sub_row,edtxt,ed,price,ch,co,ra,ro");
+			myGrid.setColSorting("na,str,str,int,int,int,na,na");
+			myGrid.init();
+			myGrid.loadXML("../common/grid_srow.xml");
+		}
+	</script>
+</head>
+<body>
+	<h1>Subrow excell</h1>
+	<p>There is a possibility to set subrows using "sub_row" excell. Try to click plus sign.</p>
+	<div id="gridbox" style="width: 600px; height: 270px; background-color:white;"></div>
+	<input type="button" name="a1" value="add row" onClick="myGrid.addRow((new Date()).valueOf(),[1,2,3,4,5],1)">
+	<input type="button" name="a1" value="delete row" onClick="myGrid.deleteRow(myGrid.getSelectedId())">
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title> Focus item</title>
+</head>
+
+<body>
+	<h1>Focus item</h1>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<p>dhtmlxTree allows you to select and scroll to the indicated item from the script. Choose the number of the node you want to scroll to in the selection list and click on the action link. </p>    
+	<table>
+		<tr>
+			<td>
+				<div id="treeboxbox_tree" style="width:250px; height:218px;background-color:#f5f5f5;border :1px solid Silver;; overflow:auto;"/>
+			</td>
+			<td rowspan="2" style="padding-left:25" valign="top">
+				<select id="sel1">
+					<option value="10">0<option value="1">1<option value="2">2<option value="3">3
+					<option value="4">4<option value="5">5<option value="6">6<option value="7">7
+					<option value="8">8<option value="9">9
+				</select> 
+				<a href="javascript:void(0)" onClick="var z=document.getElementById('sel1').value;  tree.selectItem(z); tree.focusItem(z); "> focus </a>
+			</td>
+		</tr>
+		
+	</table>
+
+	<script>
+			tree=new dhtmlXTreeObject("treeboxbox_tree","100%","100%",0);
+
+			
+			tree.setImagePath("../../../../dhtmlx/imgs/dhxtree_skyblue/");
+			tree.loadXML("../common/tree_lg.xml")
+	</script>
+<br><br>
+
+</body>
+</html>

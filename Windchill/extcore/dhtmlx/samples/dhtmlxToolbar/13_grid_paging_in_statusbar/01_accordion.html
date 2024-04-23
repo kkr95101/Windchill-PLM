@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Paging in accordion's status bar</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<style>
+		div#accObj {
+			position: relative;
+			width: 520px;
+			height: 400px;
+		}
+	</style>
+	<script>
+		var myAcc, myGrid;
+		function doOnLoad(skin) {
+			
+			myAcc = new dhtmlXAccordion({
+				parent: "accObj",
+				items: [
+					{id: "a1", text: "dhtmlxGrid"},
+					{id: "a2", text: "b"},
+					{id: "a3", text: "c"}
+				]
+			});
+			
+			// attach status bar
+			myAcc.cells("a1").attachStatusBar({
+				text: "<div id='pagingArea'></div>",
+				paging: true
+			});
+			
+			// init grid
+			myGrid = myAcc.cells("a1").attachGrid();
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.enablePaging(true, 9, 3, "pagingArea");
+			myGrid.setPagingSkin("toolbar");
+			myGrid.loadXML("../common/grid.xml");
+			
+		}
+	</script>
+</head>
+<body onload="doOnLoad();">
+	<div id="accObj"></div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Setting tab order</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid;
+		function doOnLoad(){
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("Sales,Book Title,Author,Price,In Store,Shipping,Bestseller,Date of Publication");
+			myGrid.setInitWidths("50,150,100,80,80,80,80,200");
+			myGrid.setColAlign("right,left,left,right,center,left,center,center");
+			myGrid.setColTypes("dyn,ed,ed,price,ch,co,ra,ro");
+			myGrid.init();
+			myGrid.setTabOrder("1,3,5,3,4,6,7,8");
+			myGrid.loadXML("../common/grid.xml");
+		}
+	</script>
+</head>
+<body onload="doOnLoad()">
+	<h1>Setting tab order</h1>
+	<p>Grid supports setting specified tab order for each column.<br/> 
+	Just set method "setTabOrder" after grid initialization and pass list of tab orders into this.</p>
+	<div id="gridbox" style="width:600px; height:270px; background-color:white;"></div>
+</body>
+</html>

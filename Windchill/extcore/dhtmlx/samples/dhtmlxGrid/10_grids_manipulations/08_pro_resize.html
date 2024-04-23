@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Autoresize columns to fit grid width</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+</head>
+	<script>
+		var myGrid;
+		function doOnLoad(){
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("Author,Title");
+			myGrid.setInitWidthsP("50,50");
+			myGrid.setColAlign("left,left");
+			myGrid.setColTypes("ro,link");
+			myGrid.setColSorting("str,str");
+			myGrid.init();
+			myGrid.loadXML("../common/grid_links_10_grids_manipulations.xml");
+		}
+	</script>
+<body onload="doOnLoad()" onResize="return true;" >
+	<h1>Autoresize columns to fit grid width</h1>
+	<p>Try to resize window - the grid columns will automatically adjust their width to new size.</p>
+	<div id="gridbox" style="width:50%; height:270px; background-color:white;overflow:hidden;"></div>
+</body>
+</html>

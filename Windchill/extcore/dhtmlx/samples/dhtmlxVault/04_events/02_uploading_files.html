@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Uploading files</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx_debug.css"/>
+    <script src="../../../../dhtmlx/dhtmlx_debug.js"></script>       
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlxvault.css"/>
+	<script src="../../../../dhtmlx/dhtmlxvault.js"></script>
+	<script src="../../../../dhtmlx/swfobject.js"></script>
+	<style>
+		div.sample_title {
+			font-size: 16px;
+			font-family: Tahoma;
+			color: #303030;
+			font-weight: bold;
+			margin: 15px 1px;
+		}
+		#log_here {
+			font-size: 11px;
+			font-family: Tahoma;
+			overflow: auto;
+			width: 600px;
+			height: 200px;
+			border: 1px solid #c3c3c3;
+		}
+	</style>
+	<script>
+		var myVault;
+		function doOnLoad() {
+			window.dhx4.ajax.post("../server/upload_conf.jsp", function(r){
+				var t = null;
+				try {eval("t="+r.xmlDoc.responseText);}catch(e){};
+				if (t != null) {
+					myVault = new dhtmlXVaultObject(t);
+					//
+					myVault.attachEvent("onUploadFile", function(file, extra){
+						writeLog("<b>onUploadFile</b>, real name: "+file.name+", server name: "+file.serverName);
+					});
+					myVault.attachEvent("onUploadComplete", function(files){
+						writeLog("<b>onUploadComplete</b> "+files.length+" file"+(files.length>1?"s were":" was")+" uploaded");
+					});
+					myVault.attachEvent("onUploadCancel", function(file){
+						writeLog("<b>onUploadCancel</b>, file: "+file.name);
+					});
+					myVault.attachEvent("onUploadFail", function(file, extra){
+						writeLog("<b>onUploadFail</b>, file: "+file.name);
+					});
+					//
+					writeLog("<b>vault inited</b>");
+				}
+			});
+		}
+		function writeLog(text) {
+			var p = document.getElementById("log_here");
+			p.innerHTML = "<div>"+text+"</div>"+p.innerHTML;
+		}
+		function clearLog() {
+			document.getElementById("log_here").innerHTML = "";
+		}
+	</script>
+	
+</head>
+<body onload="doOnLoad();">
+	<div class="sample_title">Uploading files</div>
+	<div id="vaultObj" style="width:400px; height:250px;"></div>
+	<br>
+	<div class="sample_title">Log (<a herf="javascript:void(0);" onclick="clearLog();">clear</a>)</div>
+	<div id="log_here"><div>
+</body>
+</html>

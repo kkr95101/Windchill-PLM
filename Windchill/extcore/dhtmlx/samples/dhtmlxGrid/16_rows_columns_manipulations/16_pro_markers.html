@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Markers</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid;
+		function doOnLoad(){
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("Sales,Book Title,Author");
+			myGrid.setInitWidths("100,250,100");
+			myGrid.setColAlign("right,left,left");
+			myGrid.setColTypes("ro,ed,ed");
+			myGrid.setColSorting("int,str,str");
+			myGrid.enableMarkedCells();
+			myGrid.init();
+			myGrid.loadXML("../common/grid_16_rows_columns_manipulations.xml");
+		}
+		function mark(){
+			var markedArray = myGrid.getMarked();
+			document.getElementById("logarea").innerHTML += "All marked cells:<br/>[";
+			for(var i = 0; i < markedArray.length; i++){
+				document.getElementById("logarea").innerHTML += "{ "+markedArray[i].toString()+" }";
+			}
+			document.getElementById("logarea").innerHTML += "]<br/>"
+		}
+		function doLog(str){
+			var log = document.getElementById("logarea");
+			log.innerHTML = log.innerHTML+str+"</br>";
+			log.scrollTop = log.scrollHeight;
+		}
+	</script>
+</head>
+<body onload="doOnLoad()">
+	<h1>Markers</h1>
+	<p>Markers functionality allows to select individual cells. You can also select several cells by shift-click and ctrl-click.</p>
+	<table>
+		<tr><td>
+			<div id="gridbox" style="width:400px;height:270px;background-color:white;overflow:hidden;"></div>
+		</td>
+		<td style="padding-left:25" valign="top">
+			<div id="logarea" style="background-color:#d3d3d3;height:270px;width:250px;overflow:auto; padding:3px;"></div>
+		</td></tr>
+		<tr><td>
+			<a href="javascript:void(0)" onclick="myGrid.unmarkAll()">unmark all</a>
+		</td>
+		<td style="padding-left:25" valign="top">
+			<a href="javascript:void(0)" onclick="mark()">get marked cells</a>
+		</td></tr>
+	</table>
+</body>
+</html>

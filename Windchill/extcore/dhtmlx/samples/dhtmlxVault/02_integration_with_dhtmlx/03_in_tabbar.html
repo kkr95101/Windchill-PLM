@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Attach vault to tabbar</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlxvault.css"/>
+	<script src="../../../../dhtmlx/dhtmlxvault.js"></script>
+	<script src="../../../../dhtmlx/swfobject.js"></script>
+	<script>
+		// in case of attach to dhtmlx component
+		// vault.js should be included after container.js
+		
+		var myTabbar, myVault;
+		function doOnLoad() {
+			if (typeof(dhtmlXTabBar) == "undefined") {
+				alert("dhtmlxTabbar required for this demo.");
+				return;
+			}
+			myTabbar = new dhtmlXTabBar({
+				parent: "tabbarObj",
+				tabs: [
+					{ id: "a1", text: "dhtmlxVault", active: true },
+					{ id: "a2", text: "Common" }
+				]
+			});
+			window.dhx4.ajax.post("../server/upload_conf.php", function(r){
+				var t = null;
+				try {eval("t="+r.xmlDoc.responseText);}catch(e){};
+				if (t != null) myVault = myTabbar.cells("a1").attachVault(t);
+			});
+		}
+	</script>
+</head>
+<body onload="doOnLoad();">
+	<div id="tabbarObj" style="position: relative; width: 420px; height: 300px;"></div>
+</body>
+</html>

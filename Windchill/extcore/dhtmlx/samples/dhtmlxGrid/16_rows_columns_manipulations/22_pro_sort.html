@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Custom sorting routine</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid;
+		function doOnLoad(){
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("Sales,Book Title,Author,Price,In Store,Shipping,Bestseller,Date of Publication");
+			myGrid.setInitWidths("50,150,100,80,80,80,80,200");
+			myGrid.setColAlign("right,left,left,right,center,left,center,center");
+			myGrid.setColTypes("dyn,ed,ed,price,ch,co,ra,ro");
+			myGrid.getCombo(5).put(2,2);
+			myGrid.setColSorting("int,sort_custom,str,int,str,str,str,date");
+			myGrid.setCustomSorting(sort_custom,2);
+			myGrid.init();
+			myGrid.loadXML("../common/grid_16_rows_columns_manipulations.xml");
+		}
+		function sort_custom(a,b,order){
+			var n=a.length;
+			var m=b.length;
+			if(order=="asc")
+				return n>m?1:-1;
+			else
+				return n<m?1:-1;
+		}
+	</script>
+</head>
+<body onload="doOnLoad()">
+	<h1>Custom sorting routine</h1>
+	<p>
+        Use your own comparator function to sort rows in grid in some special way.
+        <br/>
+        The second column in the sample below is sorted by number of symbols in the text.
+		But you have opportunity to set any custom criteria of sorting.</p>
+	<div id="gridbox" style="width:600px;height:270px;background-color:white;"></div>
+</body>
+</html>

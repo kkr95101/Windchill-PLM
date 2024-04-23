@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Insert/Delete column</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid;
+		function doOnLoad(){
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("Sales,Book Title,Author,Price,In Store,Shipping,Bestseller,Date of Publication");
+			myGrid.setInitWidths("50,150,120,80,80,80,80,200");
+			myGrid.setColAlign("right,left,left,right,center,left,center,center");
+			myGrid.setColTypes("dyn,ed,ed,price,ch,co,ra,ro");
+			myGrid.getCombo(5).put(2,2);
+			myGrid.setColSorting("int,str,str,int,str,str,str,str");
+			myGrid.enableMultiselect(true);
+			myGrid.setColumnMinWidth(50,0);
+			myGrid.enableColumnMove(true);
+			myGrid.init();
+			myGrid.loadXML("../common/grid_16_rows_columns_manipulations.xml");
+		}
+	</script>
+</head>
+<body onload="doOnLoad()">
+	<h1>Insert/Delete column</h1>
+	<p>You can easily insert/delete columns in your grid using the following methods:</p>
+	<div id="gridbox" style="width:600px;height:270px;background-color:white;"></div>
+	<br>
+	Add Column<br><br>
+	Index <br>
+	<input type="text" id="ind" maxlength="1" size="1" value="0"><br>
+	Label<br>
+	<input type="text" id="lbl" maxlength="50" size="20" value="New Column"><br>
+	Type (code)<br>
+	<input type="text" id="typ" maxlength="3" size="3" value="ed"><br>
+	Width (px)<br>
+	<input type="text" id="wdt" maxlength="3" size="3" value="100"><br>
+	<button onClick="myGrid.insertColumn(document.getElementById('ind').value,document.getElementById('lbl').value,document.getElementById('typ').value,document.getElementById('wdt').value);">Add Column</button>
+	<p>In the method above you should specify the following parameters:</p>
+  	<li>index - index of column</li>
+	<li>label - content of column</li>
+	<li>typeCode - type of column</li>
+	<li>width - width of column </li>
+	<p>Drop Column</p>
+	<a href="javascript:void(0)" onClick="myGrid.deleteColumn(document.getElementById('indDrop').value);">Drop</a> column by index: <input type="text" id="indDrop" maxlength="1" size="1" value="0"><br>
+</body>
+</html>

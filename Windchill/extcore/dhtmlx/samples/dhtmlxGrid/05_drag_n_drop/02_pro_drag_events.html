@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Drag-and-drop events</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid;
+		function doOnLoad(){
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("Sales,Book Title,Author,Price,In Store,Shipping,Bestseller,Date of Publication");
+			myGrid.setInitWidths("50,150,100,80,80,80,80,200");
+			myGrid.setColAlign("right,left,left,right,center,left,center,center");
+			myGrid.setColTypes("dyn,ed,ed,price,ch,co,ra,ro");
+			myGrid.setColSorting("int,str,str,int,str,str,str,date");
+			myGrid.enableMultiselect(true);
+			myGrid.init();
+			myGrid.enableDragAndDrop(true);
+			myGrid.attachEvent("onDrag",drag_f);
+			myGrid.attachEvent("onDragIn",drag_in);
+			myGrid.attachEvent("onDrop",drop_f);
+			myGrid.loadXML("../common/grid.xml");
+		}
+		function drag_f(r1,r2){
+			document.getElementById("logBox").innerHTML+="Item <b>"+r1+"</b> draged on item <b>"+r2+"</b><br/>";
+			return document.getElementById("allow_dnd").checked;
+		}
+		function drag_in(r1,r2){
+			document.getElementById("logBox").innerHTML+="Item <b>"+r1+"</b> draged over <b>"+r2+"</b><br/>";
+			return document.getElementById("allow_landing").checked;
+		}
+		function drop_f(r1,r2){
+			document.getElementById("logBox").innerHTML+="Item <b>"+r1+"</b> droped on item <b>"+r2+"</b><br/>";
+		}
+	</script>
+</head>
+<body onload="doOnLoad()">
+	<h1>Drag-and-drop events</h1>
+	<p>The sample below allows you to see which event are called during drag-n-drop operation.</p>
+	<table style="width:775px">
+		<tr>
+			<td valign="top" width="600px">
+				<div id="gridbox" style="width:100%;height:270px;background-color:white;"></div>
+			</td>
+			<td width="15px"></td>
+			<td valign="top" width="150px">
+				<div style="height:270px; overflow:auto;" id="logBox"></div>
+			</td>
+		</tr>
+	</table>
+	<div><input type='checkbox' checked="checked" id='allow_dnd' />Allow drag-and-drop (used by onDrag event)</div>
+	<div><input type='checkbox' checked="checked" id='allow_landing' />Allow landing</div>
+</body>
+</html>

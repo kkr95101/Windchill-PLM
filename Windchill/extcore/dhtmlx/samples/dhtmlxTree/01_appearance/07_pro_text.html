@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title> Nodes' view</title>
+</head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+<body>
+	<h1>Nodes' view</h1>
+	<p>Setting an appropriate tree appearance you can make a multiple selection from 3 types of nodes' view within check boxes: icons, lines, cross signs. </p>
+	<table>
+	  <tr>
+			<td valign="top">
+				<div id="treeboxbox_tree" style="width:350px; height:218px;background-color:#f5f5f5;border :1px solid Silver;"></div>
+			</td>
+			<td rowspan="2" style="padding-left:25" valign="top">
+		        <input type="checkbox" name="tree_image" id="a1"> - Icons<br>
+		        <input type="checkbox" name="tree_image" id="a2"> - Lines<br>
+		        <input type="checkbox" name="tree_image" checked="checked" id="a3"> - Cross Signs<br>
+                <a href="#" onclick='reinitTree();'>Update</a>
+
+			</td>
+		</tr>
+		
+	</table>
+	
+
+	<script>
+            function reinitTree(){
+                tree.deleteChildItems(0);
+                tree.enableTreeImages(document.getElementById('a1').checked);
+                tree.enableTreeLines(document.getElementById('a2').checked);
+                tree.enableTextSigns(document.getElementById('a3').checked);
+    			tree.loadXML("../common/tree.xml");
+            }
+			tree=new dhtmlXTreeObject("treeboxbox_tree","100%","100%",0);
+
+			
+			tree.setImagePath("../../../../dhtmlx/imgs/dhxtree_skyblue/");
+            tree.enableDragAndDrop(true);
+            reinitTree(false,false,true);
+
+	</script>
+
+
+</body>
+</html>

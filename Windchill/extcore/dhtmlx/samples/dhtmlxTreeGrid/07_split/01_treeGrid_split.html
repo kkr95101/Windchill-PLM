@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!--pro-->
+<html>
+<head>
+	<title>TreeGrid Split Mode</title>	
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+
+
+</head>
+
+<script>
+	function doOnLoad(){
+		mygrid = new dhtmlXGridObject('gridbox');
+		mygrid.setImagePath("../../../../dhtmlx/imgs/");
+		mygrid.setIconPath("../common/images/");
+		mygrid.setHeader("Tree,Price,Note");
+		mygrid.setInitWidths("200,150,100")
+		mygrid.setColAlign("left,right,center")
+		mygrid.setColTypes("tree,price,ch");
+		mygrid.setColSorting("str,str,str")
+   	  	mygrid.init();
+		mygrid.setSkin("dhx_skyblue")
+        mygrid.splitAt(1);
+        mygrid.loadXML("../common/treegrid_sample_07_split.xml");
+	}
+</script>
+<body onload="doOnLoad()">
+	
+	<h1>TreeGrid Split Mode</h1>
+	<p>Enabling Split mode with script</p>
+	
+	<div id="gridbox" width="400px" height="250px" style="background-color:white;"></div>
+</body>
+</html>

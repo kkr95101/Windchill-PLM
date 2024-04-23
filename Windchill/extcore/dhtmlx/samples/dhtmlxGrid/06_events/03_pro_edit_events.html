@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Edit actions</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid;
+		function doOnLoad(){
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("Sales,Book Title,Author,Price,In Store,Shipping,Bestseller,Date of Publication");
+			myGrid.setInitWidths("50,150,120,80,80,80,80,200");
+			myGrid.setColAlign("right,left,left,right,center,left,center,center");
+			myGrid.setColTypes("dyn,ed,ed,price,ch,co,ra,ro");
+			myGrid.enableEditEvents(false,true,true);
+			myGrid.attachEvent("onRowSelect",doOnRowSelect);
+			myGrid.getCombo(5).put(2,2);
+			myGrid.setColSorting("int,str,str,int,str,str,str,date");
+			myGrid.init();
+			myGrid.loadXML("../common/grid.xml");
+		}
+		function doOnRowSelect(id){
+			document.getElementById("logBox").innerHTML="Selected row: "+id;
+		}
+		function doEditEvents(){
+			myGrid.enableEditEvents(document.getElementById('z1').checked,document.getElementById('z2').checked,document.getElementById('z3').checked);
+		}
+	</script>
+</head>
+<body onload="doOnLoad()">
+	<h1>Edit actions</h1>
+	<p>There is an opportunity to define edit operations:</p>
+	<table width="600">
+		<tr>
+			<td width="50%" valign="top">
+				<div id="gridbox" style="width:100%;height:270px;background-color:white;"></div>
+			</td>
+
+		</tr>
+		<tr>
+			<td>
+				<div><input id='z1' type="checkbox"  onclick='doEditEvents()'>Edit on click</div>
+				<div><input id='z2' type="checkbox" checked='true' onclick='doEditEvents()'>Edit on double click</div>
+				<div><input id='z3' type="checkbox" checked='true' onclick='doEditEvents()'>Edit on F2 key</div>
+				<div id='logBox'>Selected row:</div>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

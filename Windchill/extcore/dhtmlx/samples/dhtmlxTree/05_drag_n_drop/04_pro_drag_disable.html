@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title> Temporary disabling Drag&Drop </title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	
+</head>
+<body>
+	<h1>Temporary disabling Drag&Drop</h1>
+    <p>There is a functionality in dhtmlxTree which provides you temporary disabling drag-and-drop. You can apply it for both child and sibling drop modes.</p>
+	
+	<table>
+		<tr>
+			<td>
+				drop as child
+				<div id="treeboxbox_tree" style="width:250px; height:218px;background-color:#f5f5f5;border :1px solid Silver;"/>
+			</td>
+			<td style="padding-left:25" valign="top">
+				drop as sibling
+				<div id="treeboxbox_tree2" style="width:250px; height:218px;background-color:#f5f5f5;border :1px solid Silver;"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+                <a href="#"><div style='cursor:pointer;' onClick="tree.enableDragAndDrop(true)">Enable Drag and Drop</div></a>
+                <a href="#"><div style='cursor:pointer;' onClick="tree.enableDragAndDrop('temporary_disabled')">Disable Drag and Drop</div></a>
+            </td><td style="padding-left:25" >
+                <a href="#"><div style='cursor:pointer;' onClick="tree2.enableDragAndDrop(true)">Enable Drag and Drop</div></a>
+                <a href="#"><div style='cursor:pointer;' onClick="tree2.enableDragAndDrop('temporary_disabled')">Disable Drag and Drop</div></a>
+            </td>
+		</tr>
+	</table>
+
+	<script>
+			tree=new dhtmlXTreeObject("treeboxbox_tree","100%","100%",0);
+
+			
+			tree.setImagePath("../../../../dhtmlx/imgs/dhxtree_skyblue/");
+			tree.enableDragAndDrop("temporary_disabled");
+			tree.enableSmartXMLParsing(true);
+			tree.loadXML("../common/tree.xml")
+			
+			tree2=new dhtmlXTreeObject("treeboxbox_tree2","100%","100%",0);
+
+			
+			
+			tree2.setImagePath("../../../../dhtmlx/imgs/dhxtree_skyblue/");
+			tree2.enableSmartXMLParsing(true);
+			tree2.enableDragAndDrop(true);
+			tree2.setDragBehavior("sibling");
+			tree2.loadXML("../common/tree.xml")
+
+	</script>
+<br><br>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Fast row adding</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<style>
+		.even{
+			background-color:silver;
+		}
+		.uneven{
+			background-color:white;
+		}
+	</style>
+	<script>
+		var myGrid;
+		function doOnLoad(){
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("Column A,Column B,Column C");
+			myGrid.setInitWidths("150,150,150");
+			myGrid.setColAlign("right,left,left");
+			myGrid.setColTypes("ed,ed,ed");
+			myGrid.setColSorting("int,str,int");
+			myGrid.init();
+		}
+		function adds(){
+			myGrid.clearAll();
+			var z=(new Date()).valueOf();
+			for (var i = 99; i >= 0; i--){
+				myGrid.addRow(i,[0,'new',i]);
+			}
+			alert("Time: "+((new Date()).valueOf()-z)+"ms");
+		}
+		function add_fast(){
+			myGrid.clearAll();
+			var z=(new Date()).valueOf();
+			myGrid.startFastOperations();
+			for (var i = 99; i >= 0; i--){
+				myGrid.addRow(i,[0,'fast',i]);
+			}
+			myGrid.stopFastOperations();
+			alert("Time: "+((new Date()).valueOf()-z)+"ms");
+		}
+	</script>
+</head>
+<body onload='doOnLoad()'>
+	<h1>Fast row adding</h1>
+	<p>The fastest way for loading data is loading them from XML, in some cases, group of rows must be added by script. 
+	The following extension allows to do it much faster (2-5 times faster as compared with normal case)</p>
+	<table width="600">
+		<tr>
+			<td valign="top">
+				<div id="gridbox" style="width:450px;height:250px;background-color:white; "></div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div><input id='z1' type="button" onclick='adds();' value='add 100 rows'></div>
+				<div><input id='z1' type="button" onclick='add_fast();' value='add 100 rows (fast)'></div>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

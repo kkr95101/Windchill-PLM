@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Attach vault to accordion</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlxvault.css"/>
+	<script src="../../../../dhtmlx/dhtmlxvault.js"></script>
+	<script src="../../../../dhtmlx/swfobject.js"></script>
+	<script>
+		// in case of attach to dhtmlx component
+		// vault.js should be included after container.js
+		
+		var myAcc, myVault;
+		function doOnLoad() {
+			if (typeof(dhtmlXAccordion) == "undefined") {
+				alert("dhtmlxAccordion required for this demo.");
+				return;
+			}
+			myAcc = new dhtmlXAccordion({
+				parent: "accordObj",
+				items: [
+					{ id: "a1", text: "dhtmlxVault" },
+					{ id: "a2", text: "b" },
+					{ id: "a3", text: "с" }
+				]
+			});
+			window.dhx4.ajax.post("../server/upload_conf.php", function(r){
+				var t = null;
+				try {eval("t="+r.xmlDoc.responseText);}catch(e){};
+				if (t != null) myVault = myAcc.cells("a1").attachVault(t);
+			});
+		}
+	</script>
+</head>
+<body onload="doOnLoad();">
+	<div id="accordObj" style="position: relative; width: 320px; height: 400px;"></div>
+</body>
+</html>

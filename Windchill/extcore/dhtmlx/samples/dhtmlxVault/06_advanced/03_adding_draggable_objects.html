@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Adding draggable objects</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlxvault.css"/>
+	<script src="../../../../dhtmlx/dhtmlxvault.js"></script>
+	<script src="../../../../dhtmlx/swfobject.js"></script>
+	<style>
+		div.sample_title {
+			font-size: 16px;
+			font-family: Tahoma;
+			color: #303030;
+			font-weight: bold;
+			margin: 15px 1px;
+		}
+		#log_here {
+			font-size: 11px;
+			font-family: Tahoma;
+			overflow: auto;
+			width: 600px;
+			height: 200px;
+			border: 1px solid #c3c3c3;
+		}
+		div.some_info {
+			font-family: Tahoma;
+			font-size: 12px;
+			color: #555;
+			padding: 10px 2px 20px 2px;
+		}
+		ul#links_here {
+			position: relative;
+			padding: 0;
+			margin: 0 0 0 30px;
+		}
+		ul#links_here li.single_link {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+		ul#links_here li.single_link a.single_link {
+			position: relative;
+			display: block;
+			margin: 2px;
+			color: #4477A6;
+			text-decoration: none;
+			border: 1px solid #cecece;
+			border-radius: 2px;
+			padding: 8px 14px 8px 30px;
+			font-family: Tahoma;
+			font-size: 11px;
+			background-image: url(../common/flag_green.png);
+			background-repeat: no-repeat;
+			background-position: 6px 6px;
+			background-color: white;
+		}
+		ul#links_here li.single_link a.single_link.not_linked {
+			background-image: url(../common/flag_red.png);
+		}
+	</style>
+	<script>
+		var myVault;
+		var myFiles = {
+			1: {name: "Conference Schedule.xlsx", size: 33233},
+			2: {name: "GNU GPL v3.docx", size: 140240},
+			3: {name: "Learning DHTMLX Suite.docx", size: 179618},
+			4: {name: "License_Commercial.html", size: 4237},
+			5: {name: "Sony Xperia Z1 Compact.jpg", size: 66311, not_linked: true},
+			6: {name: "Sony Xperia Z2.jpg", size: 57286, not_linked: true}
+		};
+		function doOnLoad() {
+			window.dhx4.ajax.post("../server/upload_conf.php", function(r){
+				var t = null;
+				try {eval("t="+r.xmlDoc.responseText);}catch(e){};
+				if (t != null) {
+					myVault = new dhtmlXVaultObject(t);
+					writeLog("<b>vault inited</b>");
+					
+					// link files (add ability to be dragged into vault)
+					for (var a in myFiles) {
+						
+						if (myFiles[a].not_linked != true) {
+							
+							// object id
+							var nodeId = "file_id_"+a;
+							
+							// file data which will sent to server
+							var fileData = {
+								name: myFiles[a].name, // file name, mandatory
+								size: myFiles[a].size, // file size, optonal (set to false to skip rendering)
+								customKey: "someValue" // any custom key-value pairs
+							};
+							
+							myVault.addDraggableNode(nodeId, fileData);
+							
+						}
+						
+					}
+					
+					myVault.attachEvent("onDrop", function(obj, fileData){
+						
+						writeLog("<b>onDrop</b>, file name: "+fileData.name);
+						
+						// add new file reconr in a vault
+						myVault.addFileRecord(fileData, "added");
+						
+						// hide dragged object
+						obj.style.display = "none";
+						
+						// remove links to vault (object no longer needed)
+						myVault.removeDraggableNode(obj);
+						
+					});
+					
+					
+				}
+			});
+			
+			// init files list (show files on a page)
+			for (var a in myFiles) {
+				
+				var t = '<li class="single_link">'+
+						'<a class="single_link'+(myFiles[a].not_linked?' not_linked':'')+'" id="file_id_'+a+'" href="javascript:void(0);">'+
+							myFiles[a].name+
+						'</a>'+
+					'</li>';
+				
+				document.getElementById("links_here").innerHTML += t;
+			}
+			
+		}
+		function writeLog(text) {
+			var p = document.getElementById("log_here");
+			p.innerHTML = "<div>"+text+"</div>"+p.innerHTML;
+		}
+		function clearLog() {
+			document.getElementById("log_here").innerHTML = "";
+		}
+	</script>
+	
+</head>
+<body onload="doOnLoad();">
+	<div class="sample_title">Adding draggable objects</div>
+	<div class="some_info">try to drag any of the blocks marked by the green flag into the vault<br>the blocks with red flags are not droppable (they are not linked to vault)</div>
+	<table cellspacing="0" cellpadding="0" border="0"><tr>
+		<td valign="top" align="left"><div id="vaultObj" style="width:400px; height:250px;"></div></td>
+		<td valign="top" align="left"><ul id="links_here"></ul></td>
+	</tr></table>
+	<br>
+	<div class="sample_title">Log (<a herf="javascript:void(0);" onclick="clearLog();">clear</a>)</div>
+	<div id="log_here"><div>
+</body>
+</html>

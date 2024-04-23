@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Change icon only for fail</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlxvault.css"/>
+	<script src="../../../../dhtmlx/dhtmlxvault.js"></script>
+	<script src="../../../../dhtmlx/swfobject.js"></script>
+	<style>
+		div.sample_title {
+			font-size: 16px;
+			font-family: Tahoma;
+			color: #303030;
+			font-weight: bold;
+			margin: 15px 1px;
+		}
+		div.sample_info {
+			font-size: 11px;
+			font-family: Tahoma;
+			color: #606060;
+			margin: 10px 2px;
+		}
+		.dhx_vault_dhx_skyblue div.dhx_vault_files div.dhx_vault_file.dhx_vault_file_fail div.dhx_vault_file_icon div.dhx_vault_all_icons {
+			background-image: url(../common/icon_error.gif);
+			width: 32px;
+			height: 32px;
+			left: 0px;
+		}
+	</style>
+	<script>
+		var myVault;
+		var myVaultUrl;
+		function doOnLoad() {
+			window.dhx4.ajax.post("../server/upload_conf.php", function(r){
+				var t = null;
+				try {eval("t="+r.xmlDoc.responseText);}catch(e){};
+				if (t != null) {
+					myVault = new dhtmlXVaultObject(t);
+					myVaultUrl = t.uploadUrl;
+				}
+			});
+		}
+		function changeURL(mode) {
+			if (myVault == null) return;
+			myVault.setURL(mode ? url : "fake");
+			myVault.setSWFURL(mode ? url : "fake");
+		}
+	</script>
+	
+</head>
+<body onload="doOnLoad();">
+	<div class="sample_title">Change icon only for fail</div>
+	<div class="sample_info">icon_error.png will used only for failed uploads</div>
+	<div id="vaultObj" style="width:400px; height:250px;"></div>
+	<br>
+	<input type='button' value="real url" onclick="changeURL(true);">
+	<input type='button' value="fake url" onclick="changeURL(false);">
+</body>
+</html>

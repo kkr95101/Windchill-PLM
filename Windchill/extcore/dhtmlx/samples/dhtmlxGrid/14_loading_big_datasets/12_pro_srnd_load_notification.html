@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Smart Rendering and loading notification</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid;
+		function doOnLoad(){
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("A,B,C,D,E,F,J,H");
+			myGrid.setInitWidths("50,120,150,80,80,80,80,200");
+			myGrid.setColAlign("right,left,left,right,center,left,center,center");
+			myGrid.setColTypes("ed,ed,ed,price,ch,co,ro,ro");
+			myGrid.enableAutoWidth(true);
+			myGrid.getCombo(5).put(2,2);
+			myGrid.attachEvent("onXLS",function(){ document.getElementById("a_1").style.display="block"; });
+			myGrid.attachEvent("onXLE",function(){ document.getElementById("a_1").style.display="none"; });
+			myGrid.attachEvent("onXLS",function(){
+				document.getElementById('cover').style.display='block';
+			});
+			myGrid.attachEvent("onXLE",function(){
+				document.getElementById('cover').style.display='none';
+			});
+			myGrid.init();
+			myGrid.enableSmartRendering(true,50);
+			myGrid.loadXML("php/dynload_slow.php");
+		}
+	</script>
+</head>
+<body onload="doOnLoad()">
+	<h1>Smart Rendering and loading notification</h1>
+	<p>This sample demonstrates how loading notification can be set</p>
+	<div style="height:20px">
+		<div id="a_1" style="color:red;">Loading portion of data</div>
+	</div>
+	<div  style='position:relative; height:250px; width:600px;'>
+		<div id="gridbox" style="width:600px; height:250px; background-color:white;overflow:hidden"></div>
+		<div id="cover" style='width:500px; font-size:20pt; text-align:center; font-family:Tahoma; position:absolute; top:50px; left:50px; height:150px; width:500px; background-color:silver; opacity:0.3; -moz-opacity:0.3; filter:alpha(opacity=30);'>
+			Loading
+		</div>
+	</div>
+</body>
+</html>

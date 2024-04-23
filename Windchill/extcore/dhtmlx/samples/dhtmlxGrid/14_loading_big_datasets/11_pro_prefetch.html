@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Smart Rendering with dynamic loading and buffering</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid;
+		function doOnLoad(){
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("Sales,Book Title,Author,Price,In Store,Shipping,Bestseller,Date of Publication");
+			myGrid.setInitWidths("50,150,120,80,80,80,80,200");
+			myGrid.setColAlign("right,left,left,right,center,left,center,center");
+			myGrid.setColTypes("ed,ed,ed,price,ch,co,ro,ro");
+			myGrid.getCombo(5).put(2,2);
+			myGrid.attachEvent("onXLS",function(){ document.getElementById("a_1").style.display="block"; });
+			myGrid.attachEvent("onXLE",function(){ document.getElementById("a_1").style.display="none"; });
+			myGrid.init();
+			myGrid.enableSmartRendering(true,50);
+			myGrid.loadXML("php/dynload_slow.php");
+		}
+	</script>
+</head>
+<body onload="doOnLoad()">
+	<h1>Smart Rendering with dynamic loading and buffering</h1>
+	<p> To increase grid performance working with large amount of data you can enable <strong>Smart Rendering</strong> with dynamical loading of rows from server (already loaded rows remain on client side).
+		<br><br>
+		To do this you need to add the following javascript command:
+		<br>
+		<code>yourGrid.enableSmartRendering(mode,totalRows,bufferSize);</code>
+		<br><br>
+		- and make your server side output records based on incoming parameters: <br>
+	<li>posStart -the first row in portion</li>
+	<li>count - number of rows to return</li><br/>and the total number of rows which is set by total_count attribute in the <rows> tag
+		</p>
+		<div style="height:20px">
+			<div id="a_1" style="color:red;">Loading portion of data</div>
+		</div>
+		<div id="gridbox" style="width:600px; height:250px; background-color:white;overflow:hidden"></div>
+		<p style="color:gray;">
+			* - in the current sample total number of rows is 2,000
+			** - server response is showed down to inform you when new portion loaded
+		</p>
+</body>
+</html>

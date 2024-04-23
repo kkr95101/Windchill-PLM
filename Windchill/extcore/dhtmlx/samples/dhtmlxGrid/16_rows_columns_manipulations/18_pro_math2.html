@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Custom output with math calculations</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid;
+		function doOnLoad(){
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("Book Title,Author,Price,Quantity,Total");
+			myGrid.setInitWidths("150,120,80,80,80");
+			myGrid.setColAlign("left,left,right,right,right");
+			myGrid.setColTypes("ed,ed,price,ed,price[=c2*c3]");
+			myGrid.setColSorting("str,str,int,int,int");
+			myGrid.setMathRound(2);
+			myGrid.init();
+			myGrid.loadXML("../common/grid_math2.xml");
+		}
+	</script>
+</head>
+<body onload="doOnLoad()">
+	<h1>Custom output with math calculations</h1>
+	<p> As you could see in the previous sample, you are allowed to calculate cells values automatically by math formulas. Moreover you have a possibility to customize cells applying any custom cells types.</p>
+	<div id="gridbox" style="width:510px;height:230px;background-color:white;"></div>
+</body>
+</html>

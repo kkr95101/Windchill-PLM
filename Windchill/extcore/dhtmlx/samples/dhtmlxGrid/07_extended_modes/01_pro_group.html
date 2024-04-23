@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Grouping rows by column</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid;
+		function doOnLoad(){
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.setHeader("Sales,Book Title,Author,Price,In Store,Shipping,Bestseller,Date of Publication");
+			myGrid.setInitWidths("50,150,100,80,80,80,80,200");
+			myGrid.setColAlign("right,left,left,right,center,left,center,center");
+			myGrid.setColTypes("dyn,edtxt,ed,price,ch,co,ra,ro");
+			myGrid.setColSorting("na,str,str,int,int,int,na,na");
+			myGrid.init();
+			myGrid.loadXML("../common/grid.xml",function(){
+				myGrid.groupBy(2);
+			});
+		}
+	</script>
+</head>
+<body>
+	<h1>Grouping rows by column</h1>
+	<p>Grid provides grouping rows by column.</p>
+	<table width="600px">
+		<tr>
+			<td>
+				<input type="button" name="a2" value="ungroup" onclick="myGrid.unGroup();">&nbsp;&nbsp;
+				<input type="button"  name="q1" value="regroup by" onclick='myGrid.groupBy(document.getElementById("sel").value);'>
+				<select id="sel">
+					<option value="0">Sales</option>
+					<option value="1">Book title</option>
+					<option value="2">Author</option>
+					<option value="3">Price</option>
+					<option value="4">In Store</option>
+					<option value="5">Shipping</option>
+					<option value="6">Bestseller</option>
+					<option value="7">Date of Publication</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div id="gridbox" style="width:100%;height:250px;background-color:white;"></div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<a href="javascript:void(0)" onclick="if(myGrid._groups['John Grisham']) myGrid.expandGroup('John Grisham'); else alert('There is no such group!');">expand </a>/<a href="javascript:void(0)" onclick="if(myGrid._groups['John Grisham']) myGrid.collapseGroup('John Grisham'); else alert('There is no such group!')"> colapse</a> 'John Grisham'<br/>
+				<a href="javascript:void(0)" onclick="myGrid.expandAllGroups()">expand </a>/<a href="javascript:void(0)" onclick="myGrid.collapseAllGroups()"> colapse</a> all groups<br/>
+				<a href="javascript:void(0)" onclick="myGrid.addRow((new Date()).valueOf(),[1,'The King of Torts','John Grisham',3,1,1,1,0],-1)">add </a>/<a href="javascript:void(0)" onclick="if (myGrid.getSelectedId()) myGrid.deleteRow(myGrid.getSelectedId())"> delete selected</a>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

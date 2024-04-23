@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<!--pro-->
+<html>
+<head>
+	<title>Print friendly view</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<link rel="stylesheet" type="text/css" href="../../../../dhtmlx/dhtmlx.css"/>
+	<script src="../../../../dhtmlx/dhtmlx.js"></script>
+	<script>
+		var myGrid;
+		function doOnLoad(){
+			myGrid = new dhtmlXGridObject('gridbox');
+			myGrid.setImagePath("../../../../dhtmlx/imgs/");
+			myGrid.loadXML("../common/gridHP.xml");
+		}
+	</script>
+</head>
+<body onload="doOnLoad()">
+	<h1>Print friendly view</h1>
+	<p>There is feature which allows you to preview print version of grid.</p>
+	<div id="gridbox" style="width:600px;height:330px;background-color:white;"></div>
+	<div><a href="#" onClick="myGrid.printView()">Printable view</a></div>
+</body>
+</html>
