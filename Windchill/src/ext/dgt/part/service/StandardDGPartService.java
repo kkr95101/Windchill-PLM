@@ -8,13 +8,17 @@ import org.springframework.stereotype.Service;
 
 import ext.dgt.common.CommonUtil;
 import ext.dgt.common.IBAUtil;
+import ext.dgt.document.DGTechDoc;
 import ext.dgt.part.broker.DGPartBroker;
 import ext.ptc.common.PTCCommonHelper;
 import wt.doc.WTDocument;
+import wt.doc.WTDocumentMaster;
 import wt.enterprise.RevisionControlled;
 import wt.enterprise._RevisionControlled;
 import wt.fc.PersistenceHelper;
+import wt.fc.PersistenceServerHelper;
 import wt.fc.QueryResult;
+import wt.fc.ReferenceFactory;
 import wt.folder.Folder;
 import wt.folder.FolderHelper;
 import wt.iba.value.service.LoadValue;
@@ -22,12 +26,15 @@ import wt.inf.container.WTContainerRef;
 import wt.lifecycle.LifeCycleHelper;
 import wt.org.WTUser;
 import wt.part.WTPart;
+import wt.part.WTPartDescribeLink;
 import wt.part.WTPartHelper;
 import wt.part.WTPartMaster;
+import wt.part.WTPartReferenceLink;
 import wt.part.WTPartTypeInfo;
 import wt.pom.Transaction;
 import wt.query.QuerySpec;
 import wt.query.SearchCondition;
+import wt.session.SessionContext;
 import wt.session.SessionHelper;
 import wt.util.WTException;
 import wt.vc.views.View;
@@ -66,7 +73,6 @@ public class StandardDGPartService implements DGPartService {
 		QuerySpec query = new QuerySpec();
 		int index = query.addClassList(WTPart.class, true);
 		String name = (String) param.get("name");
-		System.out.println("param:::::::::::" + name);
 		query.appendWhere(new SearchCondition(WTPart.class, "iterationInfo.latest", "TRUE"), new int[] { index });
 		query.appendAnd();
 		query.appendWhere(new SearchCondition(WTPart.class, "master>name", SearchCondition.LIKE, "%" + name + "%"),
@@ -126,6 +132,32 @@ public class StandardDGPartService implements DGPartService {
 
 			part = (WTPart) PersistenceHelper.manager.save(part);
 
+			//관련문서 저장
+			String docArrayStr = (String)param.get("docArray");
+			String[] docOidArr = docArrayStr.split("#");
+			
+			//사용자 세션 저장
+			SessionContext oid_session = null;
+			oid_session = SessionContext.newContext();
+			
+			//관리자 권한변경
+			SessionHelper.manager.setAdministrator();
+			
+			String partOid = CommonUtil.getOIDString(part);
+			System.out.println("partOid::::::::::::"+partOid);
+			
+			//설명자 문서, 참조문서
+			if(docOidArr != null && docOidArr.length >0) {
+				DGTechDoc dgTechDoc = null;
+				for (int i = 0; i < docOidArr.length; i++) {
+					String docOid = docOidArr[i];
+					dgTechDoc = (DGTechDoc)CommonUtil.getPersistable(docOid);
+					savePartDescribeLink(dgTechDoc, partOid);
+					savePartReferenceLink(dgTechDoc, partOid);
+				}
+			}
+			SessionContext.setContext(oid_session);
+			
 			// iba 속성 셋팅--------------
 
 			// checkout
@@ -136,8 +168,6 @@ public class StandardDGPartService implements DGPartService {
 			part = (WTPart) LoadValue.applySoftAttributes(part);
 
 			
-			System.out.println("material:::::::::::::::::::::"+material);
-			System.out.println("color:::::::::::::::::::::"+color);
 			// iba 속성 저장
 			IBAUtil.setIBAValueStr(part, "material", material);
 			IBAUtil.setIBAValueStr(part, "color", color);
@@ -268,4 +298,37 @@ public class StandardDGPartService implements DGPartService {
 
 	}
 
+	//설명자 문서(describe link)
+	public static void savePartDescribeLink(DGTechDoc techDoc, String partOid) throws WTException {
+		ReferenceFactory rf = null;
+		WTPartDescribeLink partDesLink = null;
+		try {
+			rf = new ReferenceFactory();
+			WTPart part = (WTPart) rf.getReference(partOid).getObject();
+			partDesLink = WTPartDescribeLink.newWTPartDescribeLink(part, techDoc);
+			
+			PersistenceServerHelper.manager.insert(partDesLink);
+		}catch (Exception e) {
+			throw new WTException(e);
+		}
+	}
+	
+	// 참조문서(reference link)
+	public static void savePartReferenceLink(DGTechDoc techDoc, String partOid) throws WTException{
+		ReferenceFactory rf = null;
+		WTPartReferenceLink partRefLink = null;
+		WTDocumentMaster master= (WTDocumentMaster)((_RevisionControlled)techDoc).getMaster(); //최신리비전가져오기
+		
+		try {
+			rf = new ReferenceFactory();
+			WTPart part = (WTPart) rf.getReference(partOid).getObject();
+			partRefLink = WTPartReferenceLink.newWTPartReferenceLink(part, master);
+			
+			PersistenceServerHelper.manager.insert(partRefLink);
+		}catch (Exception e) {
+			throw new WTException(e);
+		}
+	}
+	
+	
 }

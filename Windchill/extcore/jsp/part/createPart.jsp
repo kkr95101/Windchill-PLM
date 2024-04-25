@@ -19,6 +19,25 @@
 			
 			console.log(`${name}`);
 			
+			//관련문서 저장
+			let docCheck = $("input[name='linkDocCheckBox']");
+			let docArray = "";
+			
+			for(let i = 0; i < docCheck.length; i++){
+				if(docCheck.length==1){
+					docArray += docCheck[i].value;
+				}else{
+					if(i < docCheck.length-1){
+						docArray += docCheck[i].value + "#";
+					}else{
+						docArray += docCheck[i].value;
+					}
+				}
+				
+			}
+			$("#docArray").val(docArray);
+			
+			
 			if(name == null || name == ""){
 				alert("제목을 입력하세요");
 				frm.name.focus();
@@ -32,7 +51,7 @@
 				frm.color.focus();
 				return false; // 폼 제출 방지
 			}
-			submit.submit();
+ 			submit.submit();
 			
 		}	
 		
@@ -133,6 +152,7 @@
 		부품이름 : <input type = "text" name = "name" id="name">
 		부품속성 : <input type = "text" name = "material" id="material">
 		부품색깔 : <input type = "text" name = "color" id="color">
+		<input type="hidden" name = "docArray" id="docArray" value="">
 		<input type="button" value="부품등록" onclick="submitPart()">
 	</form>
 	

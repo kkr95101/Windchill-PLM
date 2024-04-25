@@ -3,9 +3,11 @@ package ext.dgt.part.service;
 import java.util.List;
 import java.util.Map;
 
+import ext.dgt.document.DGTechDoc;
 import ext.dgt.part.broker.DGPartBroker;
 import wt.method.RemoteInterface;
 import wt.part.WTPart;
+import wt.util.WTException;
 
 @RemoteInterface
 public interface DGPartService {
@@ -21,4 +23,5 @@ public interface DGPartService {
 	public DGPartBroker dgPartDetail(Map<String, Object> param) throws Exception;
 	
 	public void dgPartDelete(Map<String, Object> param) throws Exception;
+	
 }
