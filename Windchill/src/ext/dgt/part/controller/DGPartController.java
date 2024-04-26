@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import ext.dgt.common.CommonUtil;
+import ext.dgt.document.broker.DGTechBroker;
 import ext.dgt.part.broker.DGPartBroker;
 import ext.dgt.part.service.DGPartService;
 import wt.part.WTPart;
@@ -71,15 +73,19 @@ public class DGPartController {
 	public ModelAndView partDetail(@RequestParam Map<String, Object> param) throws Exception{
 		ModelAndView mv = new ModelAndView();
 		DGPartBroker part = service.dgPartDetail(param);
+		WTPart partDetail = (WTPart)CommonUtil.getPersistable(part.getOid());
+		List<DGTechBroker> brokerList = service.getLinkTechDocList(partDetail);
+		mv.addObject("brokerList",brokerList);
 		mv.addObject("part",part);
 		mv.setViewName("/jsp/part/partDetail");
 		return mv;
 	}
 	
 	@RequestMapping("/partUpdate")
-	public ModelAndView partUpdate(@RequestParam Map<String, Object> param)throws Exception {
+	public ModelAndView partUpdate(@RequestParam String oid)throws Exception {
 		ModelAndView mv = new ModelAndView();
-		DGPartBroker broker= service.dgPartDetail(param);
+		WTPart part=(WTPart)CommonUtil.getPersistable(oid);
+		DGPartBroker broker = new DGPartBroker(part);
 		mv.addObject("part",broker);
 		mv.setViewName("/jsp/part/partUpdateDelete");
 		return mv;
@@ -98,6 +104,14 @@ public class DGPartController {
 		ModelAndView mv = new ModelAndView();
 		service.dgPartDelete(param);
 		mv.setViewName("/jsp/part/searchPartList");
+		return mv;
+	}
+	@RequestMapping("/getLinkTechDocList")
+	public ModelAndView getLinkTechDocList(@RequestParam String oid) throws Exception {
+		ModelAndView mv = new ModelAndView();
+		WTPart part = (WTPart)CommonUtil.getPersistable(oid);
+		List<DGTechBroker> brokerList = service.getLinkTechDocList(part);
+		mv.addObject("brokerList", brokerList);
 		return mv;
 	}
 }

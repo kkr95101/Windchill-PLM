@@ -9,12 +9,15 @@ import org.springframework.stereotype.Service;
 import ext.dgt.common.CommonUtil;
 import ext.dgt.common.IBAUtil;
 import ext.dgt.document.DGTechDoc;
+import ext.dgt.document.broker.DGTechBroker;
+import ext.dgt.part.PartToTechDoc;
 import ext.dgt.part.broker.DGPartBroker;
 import ext.ptc.common.PTCCommonHelper;
 import wt.doc.WTDocument;
 import wt.doc.WTDocumentMaster;
 import wt.enterprise.RevisionControlled;
 import wt.enterprise._RevisionControlled;
+import wt.fc.Persistable;
 import wt.fc.PersistenceHelper;
 import wt.fc.PersistenceServerHelper;
 import wt.fc.QueryResult;
@@ -132,32 +135,38 @@ public class StandardDGPartService implements DGPartService {
 
 			part = (WTPart) PersistenceHelper.manager.save(part);
 
-			//관련문서 저장
-			String docArrayStr = (String)param.get("docArray");
+			// 관련문서 저장
+			String docArrayStr = (String) param.get("docArray");
 			String[] docOidArr = docArrayStr.split("#");
-			
-			//사용자 세션 저장
+
+			// 사용자 세션 저장
 			SessionContext oid_session = null;
 			oid_session = SessionContext.newContext();
-			
-			//관리자 권한변경
+
+			// 관리자 권한변경
 			SessionHelper.manager.setAdministrator();
-			
+
 			String partOid = CommonUtil.getOIDString(part);
-			System.out.println("partOid::::::::::::"+partOid);
-			
-			//설명자 문서, 참조문서
-			if(docOidArr != null && docOidArr.length >0) {
+			System.out.println("partOid::::::::::::" + partOid);
+
+			// 설명자 문서, 참조문서
+			if (docOidArr != null && docOidArr.length > 0) {
 				DGTechDoc dgTechDoc = null;
 				for (int i = 0; i < docOidArr.length; i++) {
 					String docOid = docOidArr[i];
-					dgTechDoc = (DGTechDoc)CommonUtil.getPersistable(docOid);
-					savePartDescribeLink(dgTechDoc, partOid);
-					savePartReferenceLink(dgTechDoc, partOid);
+					dgTechDoc = (DGTechDoc) CommonUtil.getPersistable(docOid);
+
+					// PartToTechDoc
+					savePartToTechDoc(dgTechDoc, part);
+
+//					설명자 문서
+//					savePartDescribeLink(dgTechDoc, partOid);
+//					참조 문서
+//					savePartReferenceLink(dgTechDoc, partOid);
 				}
 			}
 			SessionContext.setContext(oid_session);
-			
+
 			// iba 속성 셋팅--------------
 
 			// checkout
@@ -167,7 +176,6 @@ public class StandardDGPartService implements DGPartService {
 			// iba 속성 셋팅 전 적용
 			part = (WTPart) LoadValue.applySoftAttributes(part);
 
-			
 			// iba 속성 저장
 			IBAUtil.setIBAValueStr(part, "material", material);
 			IBAUtil.setIBAValueStr(part, "color", color);
@@ -248,12 +256,29 @@ public class StandardDGPartService implements DGPartService {
 			part = (WTPart) LoadValue.applySoftAttributes(part);
 
 			// iba 속성 저장
-			System.out.println("material:::::::::::::::::::::"+material);
-			System.out.println("color:::::::::::::::::::::"+color);
+			System.out.println("material:::::::::::::::::::::" + material);
+			System.out.println("color:::::::::::::::::::::" + color);
 			IBAUtil.setIBAValueStr(part, "material", material);
 			IBAUtil.setIBAValueStr(part, "color", color);
-			
+
 			part = (WTPart) PTCCommonHelper.service.checkIn(part);
+			
+			//관련문서 삭제
+			deleteApprovalToTechDoc(part);
+			
+			// 관련문서 저장
+			String docArrayStr = (String) param.get("docArray");
+			String[] docOidArr = docArrayStr.split("#");
+			
+			// 설명자 문서, 참조문서
+			if (docOidArr != null && docOidArr.length > 0) {
+				DGTechDoc dgTechDoc = null;
+				for (int i = 0; i < docOidArr.length; i++) {
+					String docOid = docOidArr[i];
+					dgTechDoc = (DGTechDoc) CommonUtil.getPersistable(docOid);
+					 savePartToTechDoc(dgTechDoc, part);
+				}
+			}
 
 			transaction.commit();
 
@@ -267,7 +292,7 @@ public class StandardDGPartService implements DGPartService {
 			}
 		}
 
-		return null;
+		return part;
 	}
 
 	@Override
@@ -298,7 +323,7 @@ public class StandardDGPartService implements DGPartService {
 
 	}
 
-	//설명자 문서(describe link)
+	// 설명자 문서(describe link)
 	public static void savePartDescribeLink(DGTechDoc techDoc, String partOid) throws WTException {
 		ReferenceFactory rf = null;
 		WTPartDescribeLink partDesLink = null;
@@ -306,29 +331,64 @@ public class StandardDGPartService implements DGPartService {
 			rf = new ReferenceFactory();
 			WTPart part = (WTPart) rf.getReference(partOid).getObject();
 			partDesLink = WTPartDescribeLink.newWTPartDescribeLink(part, techDoc);
-			
+
 			PersistenceServerHelper.manager.insert(partDesLink);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			throw new WTException(e);
 		}
 	}
-	
+
 	// 참조문서(reference link)
-	public static void savePartReferenceLink(DGTechDoc techDoc, String partOid) throws WTException{
+	public static void savePartReferenceLink(DGTechDoc techDoc, String partOid) throws WTException {
 		ReferenceFactory rf = null;
 		WTPartReferenceLink partRefLink = null;
-		WTDocumentMaster master= (WTDocumentMaster)((_RevisionControlled)techDoc).getMaster(); //최신리비전가져오기
-		
+		WTDocumentMaster master = (WTDocumentMaster) ((_RevisionControlled) techDoc).getMaster(); // 최신리비전가져오기
+
 		try {
 			rf = new ReferenceFactory();
 			WTPart part = (WTPart) rf.getReference(partOid).getObject();
 			partRefLink = WTPartReferenceLink.newWTPartReferenceLink(part, master);
-			
+
 			PersistenceServerHelper.manager.insert(partRefLink);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			throw new WTException(e);
 		}
 	}
+
+	public static void savePartToTechDoc(DGTechDoc techDoc, WTPart part) throws WTException {
+		PartToTechDoc link = null;
+
+		try {
+			link = PartToTechDoc.newPartToTehcDoc(part, techDoc); // 모델링한 객체의 생성자
+			PersistenceServerHelper.manager.insert(link);
+		} catch (Exception e) {
+			throw new WTException();
+		}
+	}
+
+	@Override
+	public ArrayList<DGTechBroker> getLinkTechDocList(WTPart part) throws Exception {
+		DGPartBroker broker = new DGPartBroker(part);
+		ArrayList<DGTechDoc> docList = broker.setOthers(part);
+		ArrayList<DGTechBroker> brokerList = new ArrayList<DGTechBroker>();
+
+		for (DGTechDoc doc : docList) {
+			DGTechBroker techBroker = new DGTechBroker(doc);
+
+			brokerList.add(techBroker);
+		}
+		return brokerList;
+	}
 	
-	
+	//관련문서 삭제
+	public void deleteApprovalToTechDoc(WTPart part) throws WTException {
+		try {
+			QueryResult qr = PersistenceHelper.manager.navigate(part, PartToTechDoc.DOCUMENT_ROLE, PartToTechDoc.class, false);
+			while (qr.hasMoreElements()) {
+				PersistenceServerHelper.manager.remove((Persistable) qr.nextElement());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

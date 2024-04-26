@@ -1,7 +1,13 @@
 package ext.dgt.part.broker;
 
+import java.util.ArrayList;
+
 import ext.dgt.common.CommonUtil;
 import ext.dgt.common.IBAUtil;
+import ext.dgt.document.DGTechDoc;
+import ext.dgt.part.PartToTechDoc;
+import wt.fc.PersistenceHelper;
+import wt.fc.QueryResult;
 import wt.part.WTPart;
 
 public class DGPartBroker {
@@ -15,6 +21,9 @@ public class DGPartBroker {
 	private String material;
 	private String color;
 	
+	//참조문서 리스트
+	private ArrayList<DGTechDoc> docList;
+	
 	public DGPartBroker(WTPart wtPart) throws Exception {
 		this.name = wtPart.getName();
 		this.displayName = "<a href='/Windchill/servlet/dgt/part/partDetail?idA2A2=" + wtPart.getPersistInfo().getObjectIdentifier().getId()+"'>"+wtPart.getName()+"</a>";
@@ -26,6 +35,24 @@ public class DGPartBroker {
 		this.color = IBAUtil.getIBAValueStr(wtPart, "color");
 	}
 
+	public ArrayList<DGTechDoc> setOthers(WTPart part){
+		try {
+			this.docList = new ArrayList<DGTechDoc>();
+			// navigate(찾을 객체의 참조 대상, 찾을 객체의 롤(modeling할때 role의 이름), 링크 클래스)
+			QueryResult qr = PersistenceHelper.manager.navigate(part, PartToTechDoc.DOCUMENT_ROLE, PartToTechDoc.class);
+			while(qr.hasMoreElements()) {
+				Object obj = (Object)qr.nextElement();
+				if(obj instanceof DGTechDoc) {
+					DGTechDoc dgTechDoc= (DGTechDoc)obj;
+					docList.add(dgTechDoc);
+				}
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return docList;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -89,4 +116,13 @@ public class DGPartBroker {
 	public void setColor(String color) {
 		this.color = color;
 	}
+
+	public ArrayList<DGTechDoc> getDocList() {
+		return docList;
+	}
+
+	public void setDocList(ArrayList<DGTechDoc> docList) {
+		this.docList = docList;
+	}
+	
 }

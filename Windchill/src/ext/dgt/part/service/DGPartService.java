@@ -1,9 +1,11 @@
 package ext.dgt.part.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import ext.dgt.document.DGTechDoc;
+import ext.dgt.document.broker.DGTechBroker;
 import ext.dgt.part.broker.DGPartBroker;
 import wt.method.RemoteInterface;
 import wt.part.WTPart;
@@ -23,5 +25,7 @@ public interface DGPartService {
 	public DGPartBroker dgPartDetail(Map<String, Object> param) throws Exception;
 	
 	public void dgPartDelete(Map<String, Object> param) throws Exception;
+	
+	public ArrayList<DGTechBroker> getLinkTechDocList(WTPart part) throws Exception;
 	
 }

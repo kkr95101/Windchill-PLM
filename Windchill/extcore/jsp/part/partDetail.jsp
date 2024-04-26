@@ -50,9 +50,9 @@ a {
 }
 </style>
 <script type="text/javascript">
-	function update(){
-		location.href="/Windchill/servlet/dgt/part/partUpdate?idA2A2="+${part.idA2A2};
-	}
+	function update() {
+		let oid = $("#oid").val();
+		location.href = "/Windchill/servlet/dgt/part/partUpdate?oid=" + oid}
 </script>
 </head>
 <body>
@@ -86,7 +86,16 @@ a {
 				<th>색깔</th>
 				<td colspan="3">${part.color}</td>
 			</tr>
+			<c:forEach var="brokerList" items="${brokerList}">
+			<tr>
+				<th>문서</th>
+				<td >${brokerList.name}</td>
+				<td >${brokerList.description}</td>
+				<td >${brokerList.userAge}</td>
+			</tr>
+			</c:forEach>
 		</table>
+			<input type="hidden" name ="oid" id="oid" value="${part.oid}">
 	</form>
 	<button id="updateButton" onclick="update()">수정</button>
 </body>
