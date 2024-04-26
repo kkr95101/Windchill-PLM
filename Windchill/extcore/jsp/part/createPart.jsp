@@ -6,6 +6,65 @@
 <meta charset="EUC-KR">
 <title>Insert title here</title>
 <script type="text/javascript" src="/Windchill/extcore/js/jquery/jquery-1.11.1.min.js"></script>
+<style type="text/css">
+/* 전체 폼 스타일 */
+form {
+    margin-bottom: 20px;
+}
+
+/* 입력 필드 스타일 */
+input[type="text"] {
+    padding: 8px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* 버튼 스타일 */
+input[type="button"] {
+    padding: 8px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="button"]:hover {
+    background-color: #0056b3;
+}
+
+/* 관련 문서 버튼 영역 스타일 */
+.buttArea {
+    margin-top: 10px;
+}
+
+.buttArea input[type="button"] {
+    margin-right: 10px;
+}
+
+/* 테이블 스타일 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+}
+
+th, td {
+    padding: 8px;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+/* 체크박스 전체 선택 스타일 */
+#linkDocCheckAll {
+    margin-left: 5px;
+}
+</style>
 <script>
 		let tempWind;
 		function submitPart(){
@@ -146,6 +205,7 @@
 		
 		
 </script>
+
 </head>
 <body>
 	<form name = "frm" onSubmit="submit()" id="frm">

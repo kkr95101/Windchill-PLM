@@ -190,6 +190,72 @@
 	
 	
 </script>
+<style type="text/css">
+/* body에 대한 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 20px;
+}
+
+/* form에 대한 스타일 */
+form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 텍스트 입력 필드에 대한 스타일 */
+input[type="text"] {
+    width: 200px;
+    padding: 8px;
+    margin: 5px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+}
+
+/* 버튼에 대한 스타일 */
+input[type="button"] {
+    padding: 8px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+input[type="button"]:hover {
+    background-color: #0056b3;
+}
+
+/* 테이블에 대한 스타일 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+/* 제목에 대한 스타일 */
+h3 {
+    margin-top: 20px;
+    color: #007bff;
+}
+</style>
 </head>
 <body>
 	<form name = "frm" onSubmit="submit()" id="frm">

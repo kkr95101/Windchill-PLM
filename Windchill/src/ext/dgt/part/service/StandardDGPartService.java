@@ -308,6 +308,7 @@ public class StandardDGPartService implements DGPartService {
 			if (WorkInProgressHelper.isCheckedOut(part)) {
 				PTCCommonHelper.service.checkIn(part);
 			}
+			deleteApprovalToTechDoc(part);
 			PersistenceHelper.manager.delete(part);
 			transaction.commit();
 
