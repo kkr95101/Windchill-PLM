@@ -98,7 +98,6 @@ input[type="button"]:hover {
 
 	function getDocList() {
 
-		alert("getDocList function탐");
 		var queryString = $("form[name=frm]").serialize();
 		$.ajax({
 			url : "/Windchill/servlet/dgt/doc/getDGdocAjax",
@@ -123,7 +122,6 @@ input[type="button"]:hover {
 	}
 	function apply() {
 		let checkobjs = docGrid.getCheckedRows(0); //체크한 로우를 가져올 수 있음
-		alert(checkobjs);
 
 		if (checkobjs == null || checkobjs == "") {
 			alert("선택한 문서가 없습니다.");
@@ -135,7 +133,6 @@ input[type="button"]:hover {
 			for (let i = 0; i < tempArr.length; i++) {
 				returnArr[i] = new Array(); //1차원 배열선언 여기서는 배열을 참조하는 배열을 선언하는것임
 				returnArr[i][0] = docGrid.getRowAttribute(tempArr[i], "oid"); // oid dhtmlx의 getRowAttribute로 받아옴
-				alert(returnArr[i][0]);
 				returnArr[i][1] = docGrid.getRowAttribute(tempArr[i],
 						"description");
 				returnArr[i][2] = docGrid.getRowAttribute(tempArr[i],

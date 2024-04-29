@@ -108,12 +108,22 @@ a {
 				<th>색깔</th>
 				<td colspan="3">${part.color}</td>
 			</tr>
+			
 			<c:forEach var="brokerList" items="${brokerList}">
 			<tr>
 				<th>문서</th>
 				<td >${brokerList.name}</td>
 				<td >${brokerList.description}</td>
 				<td >${brokerList.userAge}</td>
+			</tr>
+			</c:forEach>
+			
+			<c:forEach var="brokerListObj" items="${brokerListObj}">
+			<tr>
+				<th>문서obj</th>
+				<td >${brokerListObj.name}</td>
+				<td >${brokerListObj.description}</td>
+				<td >${brokerListObj.userAge}</td>
 			</tr>
 			</c:forEach>
 		</table>

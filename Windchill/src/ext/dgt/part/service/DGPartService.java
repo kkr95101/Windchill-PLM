@@ -27,5 +27,7 @@ public interface DGPartService {
 	public void dgPartDelete(Map<String, Object> param) throws Exception;
 	
 	public ArrayList<DGTechBroker> getLinkTechDocList(WTPart part) throws Exception;
+
+	public ArrayList<DGTechBroker> getLinkTechObjDocList(WTPart part) throws Exception;
 	
 }

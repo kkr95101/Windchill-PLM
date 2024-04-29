@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import ext.dgt.common.CommonUtil;
 import ext.dgt.common.IBAUtil;
 import ext.dgt.document.DGTechDoc;
+import ext.dgt.document.PartToTechDocObj;
 import ext.dgt.part.PartToTechDoc;
 import wt.fc.PersistenceHelper;
 import wt.fc.QueryResult;
@@ -23,6 +24,7 @@ public class DGPartBroker {
 	
 	//참조문서 리스트
 	private ArrayList<DGTechDoc> docList;
+	private ArrayList<DGTechDoc> docListObj;
 	
 	public DGPartBroker(WTPart wtPart) throws Exception {
 		this.name = wtPart.getName();
@@ -34,7 +36,7 @@ public class DGPartBroker {
 		this.material = IBAUtil.getIBAValueStr(wtPart, "material");
 		this.color = IBAUtil.getIBAValueStr(wtPart, "color");
 	}
-
+	// v to v
 	public ArrayList<DGTechDoc> setOthers(WTPart part){
 		try {
 			this.docList = new ArrayList<DGTechDoc>();
@@ -51,6 +53,27 @@ public class DGPartBroker {
 			e.printStackTrace();
 		}
 		return docList;
+	}
+	// o to o
+	public ArrayList<DGTechDoc> setObjOthers(WTPart part){
+		try {
+			this.docListObj = new ArrayList<DGTechDoc>();
+			// navigate(찾을 객체의 참조 대상, 찾을 객체의 롤(modeling할때 role의 이름), 링크 클래스)
+			System.out.println("::::this is majinoLine"+CommonUtil.getOIDString(part));
+			QueryResult qr = PersistenceHelper.manager.navigate(part, PartToTechDocObj.DOCUMENT_ROLE, PartToTechDocObj.class);
+			System.out.println("qrSize++++++++++++++++++++"+qr.size()); 
+			while(qr.hasMoreElements()) {
+				Object obj = (Object)qr.nextElement();
+				if(obj instanceof DGTechDoc) {
+					DGTechDoc dgTechDoc= (DGTechDoc)obj;
+					docListObj.add(dgTechDoc);
+				}
+			}
+			 System.out.println("docListObjSize{{{{{{{{{{{{{{{"+docListObj.size());
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return docListObj;
 	}
 	
 	public String getName() {
@@ -123,6 +146,12 @@ public class DGPartBroker {
 
 	public void setDocList(ArrayList<DGTechDoc> docList) {
 		this.docList = docList;
+	}
+	public ArrayList<DGTechDoc> getDocListObj() {
+		return docListObj;
+	}
+	public void setDocListObj(ArrayList<DGTechDoc> docListObj) {
+		this.docListObj = docListObj;
 	}
 	
 }

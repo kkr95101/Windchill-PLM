@@ -74,8 +74,11 @@ public class DGPartController {
 		ModelAndView mv = new ModelAndView();
 		DGPartBroker part = service.dgPartDetail(param);
 		WTPart partDetail = (WTPart)CommonUtil.getPersistable(part.getOid());
+		System.out.println(part.getOid()+":::::partOiod");
 		List<DGTechBroker> brokerList = service.getLinkTechDocList(partDetail);
+		List<DGTechBroker> brokerListObj = service.getLinkTechObjDocList(partDetail);
 		mv.addObject("brokerList",brokerList);
+		mv.addObject("brokerListObj",brokerListObj);
 		mv.addObject("part",part);
 		mv.setViewName("/jsp/part/partDetail");
 		return mv;
@@ -106,12 +109,22 @@ public class DGPartController {
 		mv.setViewName("/jsp/part/searchPartList");
 		return mv;
 	}
+	//vtv
 	@RequestMapping("/getLinkTechDocList")
 	public ModelAndView getLinkTechDocList(@RequestParam String oid) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		WTPart part = (WTPart)CommonUtil.getPersistable(oid);
 		List<DGTechBroker> brokerList = service.getLinkTechDocList(part);
 		mv.addObject("brokerList", brokerList);
+		return mv;
+	}
+	//oto
+	@RequestMapping("/getLinkTechObjDocList")
+	public ModelAndView getLinkTechObjDocList(@RequestParam String oid) throws Exception {
+		ModelAndView mv = new ModelAndView();
+		WTPart part = (WTPart)CommonUtil.getPersistable(oid);
+		List<DGTechBroker> brokerList = service.getLinkTechObjDocList(part);
+		mv.addObject("brokerListObj", brokerList);
 		return mv;
 	}
 }

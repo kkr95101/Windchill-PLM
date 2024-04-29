@@ -12,6 +12,7 @@
 <script>
 	 	$(document).ready(function() {
 			getDocList();
+			getDocListObj();
 		});
 		 
 		function submitPart(){
@@ -23,6 +24,7 @@
 		let material = $("#material").val();
 		let color = $("#color").val();
 
+		// v to v
 		//관련문서 저장
 		let docCheck = $("input[name='linkDocCheckBox']");
 		let docArray = "";
@@ -40,6 +42,28 @@
 			
 		}
 		$("#docArray").val(docArray);
+		
+		// o to o
+		//관련문서 저장
+		let docCheckobj = $("input[name='linkDocCheckBoxObj']");
+		console.log(docCheckobj);
+		let docArrayObj = "";
+		
+		for(let i = 0; i < docCheckobj.length; i++){
+			if(docCheckobj.length==1){
+				docArrayObj += docCheckobj[i].value;
+			}else{
+				if(i < docCheckobj.length-1){
+					docArrayObj += docCheckobj[i].value + "#";
+				}else{
+					docArrayObj += docCheckobj[i].value;
+				}
+			}
+			
+		}
+		console.log(docCheckobj);
+		$("#docArrayObj").val(docArrayObj);
+		
 		
 		
 		if (name == null || name == "") {
@@ -67,15 +91,34 @@
 		submit.submit();
 
 	}
+	// v to v
 	function searchDoc(){
+		
 		let url = "/Windchill/servlet/dgt/doc/docPicker";
-		tempWind = window.open(url,"_PICKER","width=1400, height=500"); 
+		tempWind = window.open(url,"_PICKER","width=1400, height=500"); //picker창을 여는 메서드
 	}
-	
+	// o to o
+	function searchDocObj(){
+		
+		let url = "/Windchill/servlet/dgt/doc/docPickerObj";
+		tempWind = window.open(url,"_PICKER","width=1400, height=500"); //picker창을 여는 메서드
+	}
+	// v to v
 	function setDocLink(returnArr){
 		if(!checkedDue('linkDocCheckBox', returnArr)){ 
 			for(let i = 0; i<returnArr.length; i++){ 
 				addRow('linkDocTable', returnArr[i], 'linkDocCheckBox');
+			}	//받은데이터의 길이만큼 table에다가 addRow를 함 , linkDocCheckBox는 checkBox의 이름을 지정해주기위한것
+			return "ok";
+		}else{
+			return "fail";
+		}
+	}
+	// o to o
+	function setDocLinkObj(returnArr){
+		if(!checkedDue('linkDocCheckBoxObj', returnArr)){ 
+			for(let i = 0; i<returnArr.length; i++){ 
+				addRowObj('linkDocTableObj', returnArr[i], 'linkDocCheckBoxObj');
 			}	//받은데이터의 길이만큼 table에다가 addRow를 함 , linkDocCheckBox는 checkBox의 이름을 지정해주기위한것
 			return "ok";
 		}else{
@@ -114,6 +157,7 @@
 		}
 		return arr;
 	}
+	// v to v
 	function getDocList(){
 		let oid = $("#oid").val();
 		let getArr = new Array();
@@ -139,7 +183,33 @@
 		})
 	}
 	
+	// o to o
+	function getDocListObj(){
+		let oid = $("#oid").val();
+		let getArr = new Array();
+		$.ajax({
+			type : 'post',
+			url : '/Windchill/servlet/dgt/part/getLinkTechObjDocList',
+			data : {"oid":oid},
+			dataType : "json",
+			beforeSend : function(){
+			/* 	openProgressDiv(); */
+			},
+			success : function(data){
+				let dataSize = data.brokerListObj.length;
+				
+				getArr = createArray(dataSize, 3);
+				for(let i=0; i< dataSize; i++){
+					getArr[i][0] = data.brokerListObj[i].oid;
+					getArr[i][1] = data.brokerListObj[i].description;
+					getArr[i][2] = data.brokerListObj[i].userAge;
+				}
+				setDocLinkObj(getArr);
+			}
+		})
+	}
 	
+	//v to v
 	function addRow(tableId, param, checkName){
 		$('#linkDocCheckAll').prop("checked",false); //prop== checkbox check 해지
 		let table = document.getElementById(tableId); 
@@ -155,6 +225,23 @@
 		td2.innerHTML = param[2];
 		
 	}
+	//o to o
+	function addRowObj(tableId, param, checkName){
+		$('#linkDocCheckAllObj').prop("checked",false); //prop== checkbox check 해지
+		let table = document.getElementById(tableId); 
+		let rowlen = table.rows.length;
+		let row = table.insertRow(rowlen);
+		
+		let td0 = row.insertCell(0);
+		let oidStr = "<input type='checkbox' name='"+checkName+"'value='"+param[0]+"'/>";
+		td0.innerHTML = oidStr;
+		let td1 = row.insertCell(1);
+		td1.innerHTML = param[1];
+		let td2 = row.insertCell(2);
+		td2.innerHTML = param[2];
+		
+	}
+	// v to v
 	function delDoc(tableId, checkBoxName){
 		let dataLen = 0;
 		let check = false;
@@ -178,6 +265,30 @@
 		$("#linkDocCheckAll").prop("checked", false);
 	}
 	
+	// o to o
+	function delDocObj(tableId, checkBoxName){
+		let dataLen = 0;
+		let check = false;
+		if(document.getElementById(tableId).rows.length>1){ //row가 1초과이면
+			const checkBox = document.getElementsByName(checkBoxName);
+			checkBox.forEach(function(){
+				if($(this).is(":checked")){
+					check = true;
+					return;
+				}
+			});
+			if(document.getElementsByName(checkBoxName).length>=1){
+				dataLen = document.getElementsByName(checkBoxName).length;
+				for(let i = dataLen; i >= 1; i--){
+					if(document.getElementsByName(checkBoxName)[i-1].checked){
+						document.getElementById(tableId).deleteRow(i);
+					}
+				}
+			}
+		}
+		$("#linkDocCheckAllobj").prop("checked", false);
+	}
+	
 	//체크박스 전체 체크
 	function allCheck(checkBoxName, obj){
 		if($(obj).is(":checked") == true && $("input:checkbox[name='"+checkBoxName+"']").length >0){
@@ -188,6 +299,15 @@
 		}
 	}
 	
+	//체크박스 전체 체크Obj
+	function allCheckObj(checkBoxNameObj, obj){
+		if($(obj).is(":checked") == true && $("input:checkbox[name='"+checkBoxNameObj+"']").length >0){
+			$("input:checkbox[name='"+checkBoxNameObj+"']").prop("checked",true);
+		}else{
+			obj.checked = false;
+			$("input:checkbox[name='"+checkBoxNameObj+"']").prop("checked",false);
+		}
+	}
 	
 </script>
 <style type="text/css">
@@ -264,6 +384,7 @@ h3 {
 파트재료 : <input type = "text" name = "material" id="material" value="${part.material}">
 파트색깔 : <input type = "text" name = "color" id="color" value="${part.color}">
 		<input type="hidden" name = "docArray" id="docArray" value="">
+		<input type="hidden" name = "docArrayObj" id="docArrayObj" value="">
 		<input type="button" value="부품수정" onclick="submitPart()">
 		<input type="button" value="부품삭제" onclick="deletePart()">
 		
@@ -281,6 +402,24 @@ h3 {
 		</colgroup>
 		<tr>
 			<th><input type = "checkbox" id="linkDocCheckAll" onclick="allCheck('linkDocCheckBox', this)"></th>
+			<th>문서제목</th>
+			<th>문서내용</th>
+		</tr>
+	</table>
+	
+	<h3>관련 문서obj</h3>
+	<div class="buttArea">
+		<input type="button" value="삭제" onclick="delDocObj('linkDocTableObj', 'linkDocCheckBoxObj')">
+		<input type="button" value="문서검색" onclick="searchDocObj()">
+	</div>
+	<table border ="1" id="linkDocTableObj">
+		<colgroup>
+			<col width="10%">
+			<col width="30%">
+			<col width="60%">
+		</colgroup>
+		<tr>
+			<th><input type = "checkbox" id="linkDocCheckAllObj" onclick="allCheckObj('linkDocCheckBoxObj', this)"></th>
 			<th>문서제목</th>
 			<th>문서내용</th>
 		</tr>

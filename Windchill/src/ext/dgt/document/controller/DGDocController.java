@@ -121,5 +121,11 @@ public class DGDocController {
 		mv.setViewName("/jsp/document/tempGetDgDocList");
 		return mv;
 	}
+	@RequestMapping("/docPickerObj")
+	public ModelAndView docPickerObj()throws Exception {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/jsp/document/tempGetDgDocListObj");
+		return mv;
+	}
 	
 }
