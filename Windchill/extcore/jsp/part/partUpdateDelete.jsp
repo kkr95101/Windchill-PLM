@@ -49,6 +49,7 @@
 		console.log(docCheckobj);
 		let docArrayObj = "";
 		
+		
 		for(let i = 0; i < docCheckobj.length; i++){
 			if(docCheckobj.length==1){
 				docArrayObj += docCheckobj[i].value;
