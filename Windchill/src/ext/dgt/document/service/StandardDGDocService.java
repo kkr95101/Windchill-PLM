@@ -49,7 +49,7 @@ public class StandardDGDocService implements DGDocService {
 		query.appendWhere(new SearchCondition(DGTechDoc.class, "iterationInfo.latest", "TRUE"), new int[] { idx });
 		query.setAdvancedQueryEnabled(true); // 고급 쿼리 기능 활성화
 		System.out.println(query.toString());
-
+		
 		QueryResult qr = PersistenceHelper.manager.find(query);
 
 		List<DGTechBroker> docList = new ArrayList<>();
@@ -64,12 +64,6 @@ public class StandardDGDocService implements DGDocService {
 			}
 		}
 		return docList;
-	}
-
-	@Override
-	public QuerySpec makeQuerySpec(HashMap<String, String> map) throws WTException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

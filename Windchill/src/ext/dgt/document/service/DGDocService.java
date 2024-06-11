@@ -15,7 +15,6 @@ import wt.util.WTException;
 public interface DGDocService {
 	public List<DGTechBroker> getDocList() throws Exception;
 	
-	public QuerySpec makeQuerySpec(HashMap<String, String> map) throws WTException; 
 	
 	public DGTechDoc saveDoc(Map<String, Object> map)throws Exception;
 	
