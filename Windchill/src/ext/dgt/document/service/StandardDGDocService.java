@@ -1,7 +1,6 @@
 package ext.dgt.document.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,14 +9,11 @@ import org.springframework.stereotype.Service;
 
 import ext.dgt.common.CommonUtil;
 import ext.dgt.document.DGTechDoc;
-import ext.dgt.document.broker.DGDocBroker;
 import ext.dgt.document.broker.DGTechBroker;
 import ext.ptc.common.PTCCommonHelper;
-import wt.doc.WTDocument;
 import wt.doc.WTDocumentHelper;
 import wt.doc.WTDocumentMaster;
 import wt.doc.WTDocumentTypeInfo;
-import wt.enterprise.Master;
 import wt.enterprise.RevisionControlled;
 import wt.enterprise._RevisionControlled;
 import wt.fc.PersistenceHelper;
@@ -32,7 +28,6 @@ import wt.query.QuerySpec;
 import wt.query.SearchCondition;
 import wt.session.SessionHelper;
 import wt.util.WTException;
-import wt.vc.VersionControlHelper;
 import wt.vc.wip.WorkInProgressHelper;
 
 @Service
